@@ -1,18 +1,15 @@
 name: Deploy Sphinx Documentation to GitHub Pages
 
-# Trigger the workflow on every push to the main branch
 on:
   push:
     branches: ["main"]
   workflow_dispatch:
 
-# Sets permissions for the GitHub token to allow deployment to Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -21,38 +18,31 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
-    # 1. Check out the repository's code
     - uses: actions/checkout@v4
 
-    # 2. Set up Python
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12' # Use your Python version
+        python-version: '3.12'
 
-    # 3. Install dependencies
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install sphinx myst-parser sphinx-rtd-theme
 
-    # 4. Build the Sphinx documentation
     - name: Build Sphinx documentation
       run: |
         cd docs
         make html
 
-    # 5. Configure Pages
     - name: Setup Pages
       uses: actions/configure-pages@v4
 
-    # 6. Upload the built HTML artifact
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        path: './docs/_build/html' # Path to your built documentation
+        path: './docs/_build/html'
 
-    # 7. Deploy to GitHub Pages
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v4
