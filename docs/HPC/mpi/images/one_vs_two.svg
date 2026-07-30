@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 380" font-family="monospace">
+  <!-- Background -->
+  <rect width="850" height="380" fill="#ffffff"/>
+  
+  <!-- Title -->
+  <text x="425" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#2c3e50">Decomposition Comparison</text>
+  
+  <!-- 1D Decomposition -->
+  <text x="210" y="60" text-anchor="middle" font-size="16" font-weight="bold" fill="#2c3e50">1D Decomposition (This code)</text>
+  
+  <!-- 1D grid - 4 rows x 2 columns -->
+  <!-- Row 1 -->
+  <rect x="60" y="80" width="150" height="60" rx="3" fill="#d6eaf8" stroke="#2980b9" stroke-width="2"/>
+  <text x="135" y="116" text-anchor="middle" font-size="14" font-weight="bold" fill="#2980b9">Process 0</text>
+  
+  <rect x="210" y="80" width="150" height="60" rx="3" fill="#d5f5e3" stroke="#27ae60" stroke-width="2"/>
+  <text x="285" y="116" text-anchor="middle" font-size="14" font-weight="bold" fill="#27ae60">Process 1</text>
+  
+  <!-- Row 2 -->
+  <rect x="60" y="140" width="150" height="60" rx="3" fill="#fdebd0" stroke="#e67e22" stroke-width="2"/>
+  <text x="135" y="176" text-anchor="middle" font-size="14" font-weight="bold" fill="#e67e22">Process 2</text>
+  
+  <rect x="210" y="140" width="150" height="60" rx="3" fill="#ebdef0" stroke="#8e44ad" stroke-width="2"/>
+  <text x="285" y="176" text-anchor="middle" font-size="14" font-weight="bold" fill="#8e44ad">Process 3</text>
+  
+  <!-- Row 3 -->
+  <rect x="60" y="200" width="150" height="60" rx="3" fill="#fadbd8" stroke="#e74c3c" stroke-width="2"/>
+  <text x="135" y="236" text-anchor="middle" font-size="14" font-weight="bold" fill="#e74c3c">Process 4</text>
+  
+  <rect x="210" y="200" width="150" height="60" rx="3" fill="#f9e79f" stroke="#f1c40f" stroke-width="2"/>
+  <text x="285" y="236" text-anchor="middle" font-size="14" font-weight="bold" fill="#7d6608">Process 5</text>
+  
+  <!-- Row 4 -->
+  <rect x="60" y="260" width="150" height="60" rx="3" fill="#d5dbdb" stroke="#7f8c8d" stroke-width="2"/>
+  <text x="135" y="296" text-anchor="middle" font-size="14" font-weight="bold" fill="#7f8c8d">Process 6</text>
+  
+  <rect x="210" y="260" width="150" height="60" rx="3" fill="#aed6f1" stroke="#5b7f9a" stroke-width="2"/>
+  <text x="285" y="296" text-anchor="middle" font-size="14" font-weight="bold" fill="#5b7f9a">Process 7</text>
+  
+  <!-- 1D neighbors information -->
+  <rect x="60" y="330" width="300" height="35" rx="4" ry="4" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1.5"/>
+  <text x="210" y="352" text-anchor="middle" font-size="12" font-weight="bold" fill="#2980b9">2 neighbors per process</text>
+  
+  <!-- Arrow between 1D and 2D -->
+  <line x1="380" y1="200" x2="430" y2="200" stroke="#2c3e50" stroke-width="2.5"/>
+  <polygon points="425,194 435,200 425,206" fill="#2c3e50"/>
+  <text x="405" y="190" text-anchor="middle" font-size="10" fill="#2c3e50">vs</text>
+  
+  <!-- 2D Decomposition -->
+  <text x="650" y="60" text-anchor="middle" font-size="16" font-weight="bold" fill="#2c3e50">2D Decomposition (Alternative)</text>
+  
+  <!-- 2D grid - 4 rows x 5 columns -->
+  <!-- Row 1 -->
+  <rect x="460" y="80" width="76" height="50" rx="2" fill="#d6eaf8" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="498" y="110" text-anchor="middle" font-size="10" font-weight="bold" fill="#2980b9">P00</text>
+  
+  <rect x="536" y="80" width="76" height="50" rx="2" fill="#d5f5e3" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="574" y="110" text-anchor="middle" font-size="10" font-weight="bold" fill="#27ae60">P01</text>
+  
+  <rect x="612" y="80" width="76" height="50" rx="2" fill="#fdebd0" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="650" y="110" text-anchor="middle" font-size="10" font-weight="bold" fill="#e67e22">P02</text>
+  
+  <rect x="688" y="80" width="76" height="50" rx="2" fill="#ebdef0" stroke="#8e44ad" stroke-width="1.5"/>
+  <text x="726" y="110" text-anchor="middle" font-size="10" font-weight="bold" fill="#8e44ad">P03</text>
+  
+  <rect x="764" y="80" width="76" height="50" rx="2" fill="#fadbd8" stroke="#e74c3c" stroke-width="1.5"/>
+  <text x="802" y="110" text-anchor="middle" font-size="10" font-weight="bold" fill="#e74c3c">P04</text>
+  
+  <!-- Row 2 -->
+  <rect x="460" y="130" width="76" height="50" rx="2" fill="#f9e79f" stroke="#f1c40f" stroke-width="1.5"/>
+  <text x="498" y="160" text-anchor="middle" font-size="10" font-weight="bold" fill="#7d6608">P10</text>
+  
+  <rect x="536" y="130" width="76" height="50" rx="2" fill="#aed6f1" stroke="#5b7f9a" stroke-width="1.5"/>
+  <text x="574" y="160" text-anchor="middle" font-size="10" font-weight="bold" fill="#5b7f9a">P11</text>
+  
+  <rect x="612" y="130" width="76" height="50" rx="2" fill="#d5dbdb" stroke="#7f8c8d" stroke-width="1.5"/>
+  <text x="650" y="160" text-anchor="middle" font-size="10" font-weight="bold" fill="#7f8c8d">P12</text>
+  
+  <rect x="688" y="130" width="76" height="50" rx="2" fill="#d6eaf8" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="726" y="160" text-anchor="middle" font-size="10" font-weight="bold" fill="#2980b9">P13</text>
+  
+  <rect x="764" y="130" width="76" height="50" rx="2" fill="#d5f5e3" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="802" y="160" text-anchor="middle" font-size="10" font-weight="bold" fill="#27ae60">P14</text>
+  
+  <!-- Row 3 -->
+  <rect x="460" y="180" width="76" height="50" rx="2" fill="#fdebd0" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="498" y="210" text-anchor="middle" font-size="10" font-weight="bold" fill="#e67e22">P20</text>
+  
+  <rect x="536" y="180" width="76" height="50" rx="2" fill="#ebdef0" stroke="#8e44ad" stroke-width="1.5"/>
+  <text x="574" y="210" text-anchor="middle" font-size="10" font-weight="bold" fill="#8e44ad">P21</text>
+  
+  <rect x="612" y="180" width="76" height="50" rx="2" fill="#fadbd8" stroke="#e74c3c" stroke-width="1.5"/>
+  <text x="650" y="210" text-anchor="middle" font-size="10" font-weight="bold" fill="#e74c3c">P22</text>
+  
+  <rect x="688" y="180" width="76" height="50" rx="2" fill="#f9e79f" stroke="#f1c40f" stroke-width="1.5"/>
+  <text x="726" y="210" text-anchor="middle" font-size="10" font-weight="bold" fill="#7d6608">P23</text>
+  
+  <rect x="764" y="180" width="76" height="50" rx="2" fill="#aed6f1" stroke="#5b7f9a" stroke-width="1.5"/>
+  <text x="802" y="210" text-anchor="middle" font-size="10" font-weight="bold" fill="#5b7f9a">P24</text>
+  
+  <!-- Row 4 -->
+  <rect x="460" y="230" width="76" height="50" rx="2" fill="#d5dbdb" stroke="#7f8c8d" stroke-width="1.5"/>
+  <text x="498" y="260" text-anchor="middle" font-size="10" font-weight="bold" fill="#7f8c8d">P30</text>
+  
+  <rect x="536" y="230" width="76" height="50" rx="2" fill="#d6eaf8" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="574" y="260" text-anchor="middle" font-size="10" font-weight="bold" fill="#2980b9">P31</text>
+  
+  <rect x="612" y="230" width="76" height="50" rx="2" fill="#d5f5e3" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="650" y="260" text-anchor="middle" font-size="10" font-weight="bold" fill="#27ae60">P32</text>
+  
+  <rect x="688" y="230" width="76" height="50" rx="2" fill="#fdebd0" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="726" y="260" text-anchor="middle" font-size="10" font-weight="bold" fill="#e67e22">P33</text>
+  
+  <rect x="764" y="230" width="76" height="50" rx="2" fill="#ebdef0" stroke="#8e44ad" stroke-width="1.5"/>
+  <text x="802" y="260" text-anchor="middle" font-size="10" font-weight="bold" fill="#8e44ad">P34</text>
+  
+  <!-- 2D neighbors information -->
+  <rect x="460" y="330" width="380" height="35" rx="4" ry="4" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1.5"/>
+  <text x="650" y="352" text-anchor="middle" font-size="12" font-weight="bold" fill="#2980b9">4 neighbors per process</text>
+  
+  <!-- Comparison lines -->
+  <line x1="135" y1="390" x2="135" y2="370" stroke="#2980b9" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="650" y1="390" x2="650" y2="370" stroke="#2980b9" stroke-width="1" stroke-dasharray="3,3"/>
+</svg>

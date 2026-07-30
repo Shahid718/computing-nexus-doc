@@ -1,0 +1,389 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Fortran derived data types tutorial from intrinsic types to type-bound procedures" name="description" />
+<meta content="Fortran, derived types, tutorial, OOP, grid example" name="keywords" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fortran Derived Types Tutorial &mdash; Computing Nexus docs 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Common Programming Pitfalls" href="../Pitfalls/index.html" />
+    <link rel="prev" title="Tutorials" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Computing Nexus docs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../HPC/index.html">High Performance Computing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Programming_Styles/index.html">Programming Styles</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Tutorials</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Fortran Derived Types Tutorial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#complete-code-example">Complete Code Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#concept-breakdown">Concept Breakdown</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#further-reading">Further Reading</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Pitfalls/index.html">Common Programming Pitfalls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Articles/index.html">Articles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Machine_Learning/index.html">Machine Learning</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Computing Nexus docs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Tutorials</a></li>
+      <li class="breadcrumb-item active">Fortran Derived Types Tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/Tutorials/derived_types_tutorial.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="fortran-derived-types-tutorial">
+<h1>Fortran Derived Types Tutorial<a class="headerlink" href="#fortran-derived-types-tutorial" title="Link to this heading"></a></h1>
+<p>This tutorial introduces Fortran derived data types, from basic intrinsic types to object-oriented type-bound procedures.</p>
+<div class="note admonition">
+<p class="admonition-title">Prerequisites</p>
+<ul class="simple">
+<li><p>Basic Fortran knowledge (variables, subroutines)</p></li>
+<li><p>Fortran 90+ compiler (gfortran, ifort, nvfortran)</p></li>
+</ul>
+</div>
+<div class="tip admonition">
+<p class="admonition-title">Learning objective</p>
+<p>By the end of this tutorial, you will:</p>
+<ul class="simple">
+<li><p>Define and use derived types</p></li>
+<li><p>Apply automatic constructors</p></li>
+<li><p>Pass derived types to subroutines</p></li>
+<li><p>Implement type-bound procedures</p></li>
+</ul>
+</div>
+<section id="complete-code-example">
+<h2>Complete Code Example<a class="headerlink" href="#complete-code-example" title="Link to this heading"></a></h2>
+<p>The complete tutorial code is available in <code class="docutils literal notranslate"><span class="pre">derived_types_tutorial.f90</span></code></p>
+</section>
+<section id="concept-breakdown">
+<h2>Concept Breakdown<a class="headerlink" href="#concept-breakdown" title="Link to this heading"></a></h2>
+<p><strong>1. Intrinsic Data Types</strong></p>
+<p>Purpose: Basic variable declaration without structure.</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">program </span><span class="n">grid_example</span>
+<span class="k">implicit none</span>
+
+<span class="k">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nx</span><span class="p">,</span><span class="w"> </span><span class="n">ny</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="p">,</span><span class="w"> </span><span class="n">dy</span>
+<span class="w">  </span>
+<span class="w">    </span><span class="n">nx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span>
+<span class="w">    </span><span class="n">ny</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span>
+<span class="w">    </span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+
+<span class="k">end program </span><span class="n">grid_example</span>
+</pre></div>
+</div>
+<p>Characteristics:</p>
+<ul class="simple">
+<li><p>Simple, but each variable is independent</p></li>
+<li><p>No logical grouping</p></li>
+<li><p>Limited scalability</p></li>
+</ul>
+<p><strong>2. Derived Data Types</strong></p>
+<p>Purpose: Group related variables into a single logical unit.</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">program </span><span class="n">grid_example</span>
+<span class="k">implicit none</span>
+<span class="k">    </span>
+<span class="k">    type </span><span class="n">gridType</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nx</span><span class="p">,</span><span class="w"> </span><span class="n">ny</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="p">,</span><span class="w"> </span><span class="n">dy</span>
+<span class="w">    </span><span class="k">end type </span><span class="n">gridType</span>
+
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">gridType</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">grid</span>
+
+<span class="w">    </span><span class="n">grid</span><span class="p">%</span><span class="n">nx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span>
+<span class="w">    </span><span class="n">grid</span><span class="p">%</span><span class="n">ny</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span>
+<span class="w">    </span><span class="n">grid</span><span class="p">%</span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="n">grid</span><span class="p">%</span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span>
+<span class="k">end program </span><span class="n">grid_example</span>
+</pre></div>
+</div>
+<p>Characteristics:</p>
+<ul class="simple">
+<li><p>Groups multiple variables into a single composite object</p></li>
+<li><p>Provides logical grouping of related data</p></li>
+<li><p>Scalable and reusable across programs and subroutines</p></li>
+<li><p>Access components using the <code class="docutils literal notranslate"><span class="pre">%</span></code> operator (e.g., <code class="docutils literal notranslate"><span class="pre">grid%nx</span></code>)</p></li>
+</ul>
+<p><strong>3. Derived Type with Constructor</strong></p>
+<p>Purpose: Group related data into a single unit.</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">program </span><span class="n">test</span>
+<span class="k">implicit none</span>
+
+<span class="k">    type </span><span class="n">gridType</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nx</span><span class="p">,</span><span class="w"> </span><span class="n">ny</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="p">,</span><span class="w"> </span><span class="n">dy</span>
+<span class="w">    </span><span class="k">end type </span><span class="n">gridType</span>
+
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">gridType</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">grid</span>
+
+<span class="w">    </span><span class="c">! Automatic structure constructor</span>
+<span class="w">    </span><span class="n">grid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gridType</span><span class="w"> </span><span class="p">(</span><span class="n">nx</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="n">ny</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">dy</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">end program</span>
+</pre></div>
+</div>
+<p>Characteristics:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">gridType</span></code> groups four integers logically</p></li>
+<li><p>Automatic constructor <code class="docutils literal notranslate"><span class="pre">gridType(...)</span></code> is implicitly available</p></li>
+<li><p>Named arguments improve readability</p></li>
+</ul>
+<p><strong>4. Subroutine with Derived Type Argument</strong></p>
+<p>Purpose: Initialize derived types through procedural programming.</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">program </span><span class="n">test</span>
+<span class="k">implicit none</span>
+
+<span class="k">    type </span><span class="n">gridType</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nx</span><span class="p">,</span><span class="w"> </span><span class="n">ny</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="p">,</span><span class="w"> </span><span class="n">dy</span>
+<span class="w">    </span><span class="k">end type </span><span class="n">gridType</span>
+
+<span class="w">    </span><span class="k">type</span><span class="p">(</span><span class="n">gridType</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">grid</span>
+
+<span class="w">    </span><span class="k">call </span><span class="n">createGrid</span><span class="w"> </span><span class="p">(</span><span class="n">grid</span><span class="p">,</span><span class="w"> </span><span class="n">nx</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="n">ny</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">dy</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">contains</span>
+
+<span class="k">    subroutine </span><span class="n">createGrid</span><span class="w"> </span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">nx</span><span class="p">,</span><span class="w"> </span><span class="n">ny</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="p">,</span><span class="w"> </span><span class="n">dy</span><span class="p">)</span>
+<span class="w">        </span><span class="k">type</span><span class="p">(</span><span class="n">gridType</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nx</span><span class="p">,</span><span class="w"> </span><span class="n">ny</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="p">,</span><span class="w"> </span><span class="n">dy</span>
+
+<span class="w">        </span><span class="n">this</span><span class="p">%</span><span class="n">nx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nx</span>
+<span class="w">        </span><span class="n">this</span><span class="p">%</span><span class="n">ny</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ny</span>
+<span class="w">        </span><span class="n">this</span><span class="p">%</span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dx</span>
+<span class="w">        </span><span class="n">this</span><span class="p">%</span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dy</span>
+
+<span class="w">        </span><span class="k">print</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">nx</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">ny</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">dx</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">dy</span>
+
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">createGrid</span>
+
+<span class="k">end program</span>
+</pre></div>
+</div>
+<p>Key Points:</p>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">intent(inout)</span></code> rather than <code class="docutils literal notranslate"><span class="pre">intent(out)</span></code> (preserves existing data)</p></li>
+<li><p>Component access via <code class="docutils literal notranslate"><span class="pre">%</span></code> operator: <code class="docutils literal notranslate"><span class="pre">this%nx</span></code></p></li>
+<li><p>Subroutine contained in program (implicit interface)</p></li>
+</ul>
+<div class="tip admonition">
+<p class="admonition-title">Tip</p>
+<p><code class="docutils literal notranslate"><span class="pre">intent(inout)</span></code> is recommended over <code class="docutils literal notranslate"><span class="pre">intent(out)</span></code> because it avoids undefined initial values if the derived type has <code class="docutils literal notranslate"><span class="pre">allocatable</span></code> components or later extensions.</p>
+</div>
+<p><strong>5. Type-Bound Procedures (Object-Oriented Fortran)</strong></p>
+<p>Purpose: Attach methods directly to types (Fortran 2003+).</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">module </span><span class="n">gridType_module</span>
+<span class="k">implicit none</span>
+
+<span class="k">    type </span><span class="n">gridType</span>
+<span class="w">        </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nx</span><span class="p">,</span><span class="w"> </span><span class="n">ny</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="p">,</span><span class="w"> </span><span class="n">dy</span>
+<span class="w">    </span><span class="k">contains</span>
+<span class="k">        procedure</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">createGrid</span>
+<span class="w">    </span><span class="k">end type </span><span class="n">gridType</span>
+
+<span class="k">contains</span>
+
+<span class="k">    subroutine </span><span class="n">createGrid</span><span class="w"> </span><span class="p">(</span><span class="n">this</span><span class="p">,</span><span class="w"> </span><span class="n">nx</span><span class="p">,</span><span class="w"> </span><span class="n">ny</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="p">,</span><span class="w"> </span><span class="n">dy</span><span class="p">)</span>
+<span class="w">        </span><span class="k">class</span><span class="p">(</span><span class="n">gridType</span><span class="p">),</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">this</span><span class="w">   </span><span class="c">! Must be CLASS</span>
+<span class="w">        </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">intent</span><span class="p">(</span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">nx</span><span class="p">,</span><span class="w"> </span><span class="n">ny</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="p">,</span><span class="w"> </span><span class="n">dy</span>
+
+<span class="w">        </span><span class="n">this</span><span class="p">%</span><span class="n">nx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nx</span>
+<span class="w">        </span><span class="n">this</span><span class="p">%</span><span class="n">ny</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ny</span>
+<span class="w">        </span><span class="n">this</span><span class="p">%</span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dx</span>
+<span class="w">        </span><span class="n">this</span><span class="p">%</span><span class="n">dy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dy</span>
+
+<span class="w">        </span><span class="k">print</span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">nx</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">ny</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">dx</span><span class="p">,</span><span class="w"> </span><span class="n">this</span><span class="p">%</span><span class="n">dy</span>
+
+<span class="w">    </span><span class="k">end subroutine </span><span class="n">createGrid</span>
+
+<span class="k">end module </span><span class="n">gridType_module</span>
+
+<span class="k">program </span><span class="n">test</span>
+<span class="k">use </span><span class="n">gridType_module</span>
+<span class="k">implicit none</span>
+
+<span class="k">    type</span><span class="p">(</span><span class="n">gridType</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">grid</span>
+
+<span class="w">    </span><span class="k">call </span><span class="n">grid</span><span class="p">%</span><span class="n">createGrid</span><span class="w"> </span><span class="p">(</span><span class="n">nx</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="n">ny</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">dy</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">end program</span>
+</pre></div>
+</div>
+<p><strong>Why <code class="docutils literal notranslate"><span class="pre">CLASS</span></code> instead of <code class="docutils literal notranslate"><span class="pre">TYPE</span></code>?</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Type</p></th>
+<th class="head"><p>Use  Case</p></th>
+<th class="head"><p>Polymorphic</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">TYPE</span></code></p></td>
+<td><p>Non-polymorphic arguments</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">CLASS</span></code></p></td>
+<td><p>Polymorphic arguments (type extensions)</p></td>
+<td><p>Yes</p></td>
+</tr>
+</tbody>
+</table>
+<p>For type-bound procedures, the passed object is polymorphic, so <code class="docutils literal notranslate"><span class="pre">CLASS</span></code> is mandatory.</p>
+<p><strong>Comparison Table</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Concept</p></th>
+<th class="head"><p>Syntax Example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Intrinsic type</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">integer</span> <span class="pre">::</span> <span class="pre">nx</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Derived type definition</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">type</span> <span class="pre">gridType</span> <span class="pre">...</span> <span class="pre">end</span> <span class="pre">type</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Automatic constructor</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">gridType(nx=50,</span> <span class="pre">ny=50,</span> <span class="pre">dx=2,</span> <span class="pre">dy=2)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Component access</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">grid%nx</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Subroutine with derived type</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">createGrid(grid,</span> <span class="pre">...)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Type-bound procedure</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">grid%createGrid(...)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Polymorphic argument</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">class(gridType),</span> <span class="pre">intent(inout)</span> <span class="pre">::</span> <span class="pre">this</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Compilation and Execution</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#compile</span>
+gfortran<span class="w"> </span>-o<span class="w"> </span>derived_types_tutorial<span class="w"> </span>derived_types_tutorial.f90
+
+<span class="c1"># Run</span>
+./derived_types_tutorial
+</pre></div>
+</div>
+<p>Expected Output (Example 4):</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="mi">50</span><span class="w">   </span><span class="mi">50</span><span class="w">   </span><span class="mi">2</span><span class="w">   </span><span class="mi">2</span>
+</pre></div>
+</div>
+<p><strong>Key Takeaways</strong></p>
+<div class="important admonition">
+<p class="admonition-title">Important</p>
+<ol class="arabic simple">
+<li><p><strong>Use <code class="docutils literal notranslate"><span class="pre">intent(inout)</span></code></strong> for derived type arguments in subroutines</p></li>
+<li><p><strong>Prefer <code class="docutils literal notranslate"><span class="pre">CLASS</span></code> over <code class="docutils literal notranslate"><span class="pre">TYPE</span></code></strong> for type-bound procedure arguments</p></li>
+<li><p><strong>Encapsulate types in modules</strong> for reusability and clean interfaces</p></li>
+<li><p><strong>Use automatic constructors</strong> with named arguments for clarity</p></li>
+</ol>
+</div>
+<p><strong>Exercises</strong></p>
+<ul class="simple">
+<li><p>Modify the grid to include a real component called <code class="docutils literal notranslate"><span class="pre">resolution</span></code></p></li>
+<li><p>Add a method <code class="docutils literal notranslate"><span class="pre">printGrid()</span></code> to display formatted output</p></li>
+<li><p>Create an extended type <code class="docutils literal notranslate"><span class="pre">grid3DType</span></code> with an <code class="docutils literal notranslate"><span class="pre">nz</span></code> component</p></li>
+<li><p>Implement validation in <code class="docutils literal notranslate"><span class="pre">createGrid</span></code> to ensure positive grid dimensions</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="further-reading">
+<h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.elsevier.com/books/modern-fortran-explained/metcalf/978-0-08-100063-6">Modern Fortran Explained</a> (Metcalf, Reid, Cohen)</p></li>
+<li><p><a class="reference external" href="https://link.springer.com/book/10.1007/978-3-319-75502-1">Introduction to Programming with Fortran</a> (Chivers , Sleightholme)</p></li>
+<li><p><a class="reference external" href="https://www.intel.com/content/www/us/en/docs/fortran-compiler/developer-guide-reference/2025-2/derived-data-types.html">Intel Developer Guide - Derived Types</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Tutorials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../Pitfalls/index.html" class="btn btn-neutral float-right" title="Common Programming Pitfalls" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Shahid Maqbool.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

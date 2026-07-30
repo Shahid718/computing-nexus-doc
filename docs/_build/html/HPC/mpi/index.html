@@ -1,0 +1,873 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MPI Finite Difference Phase Field Code - A Tutorial Guide &mdash; Computing Nexus docs 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="OpenMP Finite Difference Phase Field Code - A Tutorial Guide" href="../openmp/index.html" />
+    <link rel="prev" title="High Performance Computing" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Computing Nexus docs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">High Performance Computing</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#the-hpc-landscape">The HPC Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#hybrid-hpc-approach">Hybrid HPC Approach</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#hpc-system-architecture-overview">HPC System Architecture Overview</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">MPI Finite Difference Phase Field Code - A Tutorial Guide</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#table-of-contents">Table of Contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#understanding-the-physics">Understanding the Physics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#mpi-concepts-for-beginners">MPI Concepts for Beginners</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-by-step-code-walkthrough">Step-by-Step Code Walkthrough</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#communication-patterns-explained">Communication Patterns Explained</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#communication-timeline">Communication Timeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#blocking-vs-non-blocking-communication">Blocking vs Non-blocking Communication</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#common-pitfalls-and-solutions">Common Pitfalls and Solutions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#advanced-topics">Advanced Topics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#appendix-quick-reference">Appendix: Quick Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../openmp/index.html">OpenMP Finite Difference Phase Field Code - A Tutorial Guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cuda/index.html">CUDA Finite Difference Phase Field Code - A Tutorial Guide</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Programming_Styles/index.html">Programming Styles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Pitfalls/index.html">Common Programming Pitfalls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Articles/index.html">Articles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Machine_Learning/index.html">Machine Learning</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Computing Nexus docs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">High Performance Computing</a></li>
+      <li class="breadcrumb-item active">MPI Finite Difference Phase Field Code - A Tutorial Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/HPC/mpi/index.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="mpi-finite-difference-phase-field-code-a-tutorial-guide">
+<h1>MPI Finite Difference Phase Field Code - A Tutorial Guide<a class="headerlink" href="#mpi-finite-difference-phase-field-code-a-tutorial-guide" title="Link to this heading"></a></h1>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#introduction"><span class="xref myst">Introduction</span></a></p></li>
+<li><p><a class="reference internal" href="#understanding-the-physics"><span class="xref myst">Understanding the Physics</span></a></p></li>
+<li><p><a class="reference internal" href="#mpi-concepts-for-beginners"><span class="xref myst">MPI Concepts for Beginners</span></a></p></li>
+<li><p><a class="reference internal" href="#step-by-step-code-walkthrough"><span class="xref myst">Step-by-Step Code Walkthrough</span></a></p></li>
+<li><p><a class="reference internal" href="#visualization-of-domain-decomposition"><span class="xref myst">Visualization of Domain Decomposition</span></a></p></li>
+<li><p><a class="reference internal" href="#communication-patterns-explained"><span class="xref myst">Communication Patterns Explained</span></a></p></li>
+<li><p><a class="reference internal" href="#running-the-code"><span class="xref myst">Running the Code</span></a></p></li>
+<li><p><a class="reference internal" href="#common-pitfalls-and-solutions"><span class="xref myst">Common Pitfalls and Solutions</span></a></p></li>
+<li><p><a class="reference internal" href="#advanced-topics"><span class="xref myst">Advanced Topics</span></a></p></li>
+<li><p><a class="reference internal" href="#appendix-quick-reference"><span class="xref myst">Appendix: Quick Reference</span></a></p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<p>This document provides a comprehensive tutorial on parallel computing using MPI (Message Passing Interface) through a finite difference code that solves the Cahn-Hilliard equation—a fundamental model for phase separation in materials science. The code uses <code class="docutils literal notranslate"><span class="pre">Eigen::Array</span></code> for vectorized row access, <code class="docutils literal notranslate"><span class="pre">float</span></code> precision, and a load-balanced domain decomposition so the work divides evenly even when the grid size isn’t a multiple of the number of processes.</p>
+<section id="what-you-will-learn">
+<h3>What You Will Learn<a class="headerlink" href="#what-you-will-learn" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>How to initialize and manage MPI processes</p></li>
+<li><p>Load-balanced domain decomposition strategies for scientific computing</p></li>
+<li><p>Communication patterns for finite difference stencils using Eigen row buffers</p></li>
+<li><p>Data management with halo/ghost cells on <code class="docutils literal notranslate"><span class="pre">Eigen::Array</span></code> matrices</p></li>
+<li><p>Performance optimization techniques (precomputed neighbor indices, <code class="docutils literal notranslate"><span class="pre">-O3</span> <span class="pre">-march=native</span></code>, <code class="docutils literal notranslate"><span class="pre">float</span></code> precision)</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="understanding-the-physics">
+<h2>Understanding the Physics<a class="headerlink" href="#understanding-the-physics" title="Link to this heading"></a></h2>
+<p>The Cahn-Hilliard equation describes phase separation in binary alloys:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial c}{\partial t} = \nabla \cdot \left[M \nabla \left(\frac{\delta F}{\delta c}\right)\right]\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><strong><span class="math notranslate nohighlight">\(c\)</span></strong>: Concentration field</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(M\)</span></strong>: Mobility</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(F\)</span></strong>: Free energy functional</p></li>
+</ul>
+<p>The code uses a 5-point finite difference stencil to discretize this equation spatially:</p>
+<div class="math notranslate nohighlight">
+\[\nabla^2 c = \frac{c[i+1,j] + c[i-1,j] + c[i,j+1] + c[i,j-1] - 4c[i,j]}{\Delta x \cdot \Delta y}\]</div>
+<section id="why-parallelize">
+<h3>Why Parallelize?<a class="headerlink" href="#why-parallelize" title="Link to this heading"></a></h3>
+<p>The 2D domain is <span class="math notranslate nohighlight">\(5000 \times 5000\)</span> grid points — 25 million points evolved for 1000 time steps.</p>
+<ul class="simple">
+<li><p><strong>Serial:</strong> 25 million points <span class="math notranslate nohighlight">\(\times\)</span> 1000 time steps = <strong>too slow</strong> on a single core.</p></li>
+<li><p><strong>Parallel:</strong> Domain divided among processors along the x-direction, each handling <span class="math notranslate nohighlight">\(\sim 1/N\)</span> of the rows, with remainder rows spread across the first few ranks so no process is left idle while others do extra work.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="mpi-concepts-for-beginners">
+<h2>MPI Concepts for Beginners<a class="headerlink" href="#mpi-concepts-for-beginners" title="Link to this heading"></a></h2>
+<section id="what-is-mpi">
+<h3>What is MPI?<a class="headerlink" href="#what-is-mpi" title="Link to this heading"></a></h3>
+<p>MPI is a standardized message-passing library designed for parallel computing. Think of it as a way for different computers (or processors) to talk to each other.</p>
+</section>
+<section id="key-concepts">
+<h3>Key Concepts<a class="headerlink" href="#key-concepts" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Concept</p></th>
+<th class="head text-left"><p>Analogy</p></th>
+<th class="head text-left"><p>In Our Code</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>Rank</strong></p></td>
+<td class="text-left"><p>Worker ID number</p></td>
+<td class="text-left"><p>Process identifier (0 to <code class="docutils literal notranslate"><span class="pre">size</span> <span class="pre">-</span> <span class="pre">1</span></code>)</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Communicator</strong></p></td>
+<td class="text-left"><p>Group of workers</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">MPI_COMM_WORLD</span></code> (all processes)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Send/Recv</strong></p></td>
+<td class="text-left"><p>Passing notes</p></td>
+<td class="text-left"><p>Exchanging boundary rows via <code class="docutils literal notranslate"><span class="pre">exchange_x_halos</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong><code class="docutils literal notranslate"><span class="pre">MPI_PROC_NULL</span></code></strong></p></td>
+<td class="text-left"><p>An empty mailbox</p></td>
+<td class="text-left"><p>Used for the first/last rank’s missing neighbor, so no <code class="docutils literal notranslate"><span class="pre">if</span></code> branch is needed around the send/recv calls</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="process-communication-model">
+<h3>Process Communication Model<a class="headerlink" href="#process-communication-model" title="Link to this heading"></a></h3>
+<!-- In HTML -->
+<img alt="MPI Diagram" src="../../_images/process_communication.svg" />
+</section>
+</section>
+<section id="step-by-step-code-walkthrough">
+<h2>Step-by-Step Code Walkthrough<a class="headerlink" href="#step-by-step-code-walkthrough" title="Link to this heading"></a></h2>
+<section id="step-1-mpi-initialization">
+<h3>Step 1: MPI Initialization<a class="headerlink" href="#step-1-mpi-initialization" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">MPI_Init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">argv</span><span class="p">);</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">rank</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">;</span>
+<span class="n">MPI_Comm_rank</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">rank</span><span class="p">);</span>
+<span class="n">MPI_Comm_size</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">size</span><span class="p">);</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rank</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Total processors running: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Grid size: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">Nx</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; x &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">Ny</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Using float precision&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<section id="what-happens-here">
+<h4>What happens here?<a class="headerlink" href="#what-happens-here" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">MPI_Init</span></code>: Starts the MPI environment, sets up communication channels.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MPI_Comm_rank</span></code>: Each process gets a unique ID (0 to <code class="docutils literal notranslate"><span class="pre">size</span> <span class="pre">-</span> <span class="pre">1</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MPI_Comm_size</span></code>: Total number of processes running.</p></li>
+<li><p>Only rank 0 prints the run configuration, so you don’t get the same three lines repeated once per process.</p></li>
+</ul>
+</section>
+<section id="visual-timeline">
+<h4>Visual Timeline:<a class="headerlink" href="#visual-timeline" title="Link to this heading"></a></h4>
+<img alt="MPI Diagram" src="../../_images/mpi_timeline.svg" />
+</section>
+</section>
+<section id="step-2-load-balanced-domain-decomposition">
+<h3>Step 2: Load-Balanced Domain Decomposition<a class="headerlink" href="#step-2-load-balanced-domain-decomposition" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">base_Nx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nx</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">size</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">remainder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nx</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">size</span><span class="p">;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">local_Nx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">base_Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">rank</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">remainder</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">start_x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rank</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">base_Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">min</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span><span class="w"> </span><span class="n">remainder</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">end_x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">start_x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">local_Nx</span><span class="p">;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">local_Nx_halo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">local_Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+</pre></div>
+</div>
+<section id="id1">
+<h4>What happens here?<a class="headerlink" href="#id1" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">base_Nx</span></code>: the guaranteed minimum number of rows every rank owns.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">remainder</span></code>: how many ranks need one extra row to cover the full domain.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">local_Nx</span></code>: ranks <code class="docutils literal notranslate"><span class="pre">0</span></code> through <code class="docutils literal notranslate"><span class="pre">remainder</span> <span class="pre">-</span> <span class="pre">1</span></code> get one extra row so the domain divides evenly overall.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">start_x</span></code>: computed with <code class="docutils literal notranslate"><span class="pre">std::min(rank,</span> <span class="pre">remainder)</span></code> so ranks after the first <code class="docutils literal notranslate"><span class="pre">remainder</span></code> ones are offset correctly once the extra rows run out.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">local_Nx_halo</span> <span class="pre">=</span> <span class="pre">local_Nx</span> <span class="pre">+</span> <span class="pre">2</span></code>: two extra rows reserved for halo cells.</p></li>
+</ul>
+</section>
+<section id="visual-representation">
+<h4>Visual Representation:<a class="headerlink" href="#visual-representation" title="Link to this heading"></a></h4>
+<!-- In HTML -->
+<img alt="MPI Diagram" src="../../_images/domain_decomposition.svg" />
+</section>
+</section>
+<section id="step-3-eigen-based-halo-allocation">
+<h3>Step 3: Eigen-Based Halo Allocation<a class="headerlink" href="#step-3-eigen-based-halo-allocation" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">EigenMatrix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Array</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Dynamic</span><span class="p">,</span><span class="w"> </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Dynamic</span><span class="p">,</span><span class="w"> </span><span class="n">Eigen</span><span class="o">::</span><span class="n">RowMajor</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="n">EigenMatrix</span><span class="w"> </span><span class="n">con</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EigenMatrix</span><span class="o">::</span><span class="n">Zero</span><span class="p">(</span><span class="n">local_Nx_halo</span><span class="p">,</span><span class="w"> </span><span class="n">Ny</span><span class="p">);</span>
+<span class="n">EigenMatrix</span><span class="w"> </span><span class="n">dfdcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EigenMatrix</span><span class="o">::</span><span class="n">Zero</span><span class="p">(</span><span class="n">local_Nx_halo</span><span class="p">,</span><span class="w"> </span><span class="n">Ny</span><span class="p">);</span>
+<span class="n">EigenMatrix</span><span class="w"> </span><span class="n">lap_con</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EigenMatrix</span><span class="o">::</span><span class="n">Zero</span><span class="p">(</span><span class="n">local_Nx_halo</span><span class="p">,</span><span class="w"> </span><span class="n">Ny</span><span class="p">);</span>
+<span class="n">EigenMatrix</span><span class="w"> </span><span class="n">dummy_con</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EigenMatrix</span><span class="o">::</span><span class="n">Zero</span><span class="p">(</span><span class="n">local_Nx_halo</span><span class="p">,</span><span class="w"> </span><span class="n">Ny</span><span class="p">);</span>
+<span class="n">EigenMatrix</span><span class="w"> </span><span class="n">con_new</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EigenMatrix</span><span class="o">::</span><span class="n">Zero</span><span class="p">(</span><span class="n">local_Nx_halo</span><span class="p">,</span><span class="w"> </span><span class="n">Ny</span><span class="p">);</span>
+</pre></div>
+</div>
+<section id="id2">
+<h4>What happens here?<a class="headerlink" href="#id2" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Eigen::Array&lt;float,</span> <span class="pre">Dynamic,</span> <span class="pre">Dynamic,</span> <span class="pre">RowMajor&gt;</span></code> stores each row contiguously in memory, so a whole row can be sent with a single pointer and length in <code class="docutils literal notranslate"><span class="pre">MPI_Sendrecv</span></code> instead of looping element by element.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RowMajor</span></code> is explicit here: Eigen defaults to column-major, which would make <code class="docutils literal notranslate"><span class="pre">field.row(i).data()</span></code> <strong>not</strong> point at contiguous memory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">EigenMatrix::Zero(...)</span></code> allocates and zero-initializes in one call.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">float</span></code> precision keeps each array’s memory footprint and the bytes sent per halo exchange smaller — at <span class="math notranslate nohighlight">\(5000 \times 5000\)</span>, each array is 100 MB.</p></li>
+</ul>
+</section>
+<section id="halo-cells-visual">
+<h4>Halo Cells Visual:<a class="headerlink" href="#halo-cells-visual" title="Link to this heading"></a></h4>
+<!-- In HTML -->
+<img alt="MPI Diagram" src="../../_images/Halo_exchange.svg" />
+</section>
+<section id="why-are-halos-needed">
+<h4>Why are halos needed?<a class="headerlink" href="#why-are-halos-needed" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>To compute derivatives at domain boundaries, we need values from adjacent rows.</p></li>
+<li><p>Rank 1 needs a boundary row from rank 0 (left) and rank 2 (right).</p></li>
+<li><p>Halos act as buffers that temporarily store these “ghost” values after communication.</p></li>
+</ul>
+</section>
+</section>
+<section id="step-4-data-initialization">
+<h3>Step 4: Data Initialization<a class="headerlink" href="#step-4-data-initialization" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">mt19937</span><span class="w"> </span><span class="nf">rng</span><span class="p">(</span><span class="n">rank</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">12345</span><span class="p">);</span>
+<span class="n">std</span><span class="o">::</span><span class="n">uniform_real_distribution</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">dist</span><span class="p">(</span><span class="mf">0.0f</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0f</span><span class="p">);</span>
+
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">local_Nx</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Ny</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">con</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">con_0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">noise</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mf">0.5f</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dist</span><span class="p">(</span><span class="n">rng</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">apply_periodic_y</span><span class="p">(</span><span class="n">con</span><span class="p">,</span><span class="w"> </span><span class="n">local_Nx</span><span class="p">);</span>
+</pre></div>
+</div>
+<section id="important-points">
+<h4>Important Points:<a class="headerlink" href="#important-points" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>Each process initializes its own unique memory slice, using <code class="docutils literal notranslate"><span class="pre">(row,</span> <span class="pre">col)</span></code> Eigen accessors.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rank</span> <span class="pre">+</span> <span class="pre">12345</span></code> ensures a unique random seed per process, preventing duplicate noise generation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">apply_periodic_y</span></code> refreshes the y-boundary ghost columns right after initialization, since Eigen arrays have no built-in wraparound indexing.</p></li>
+</ul>
+</section>
+</section>
+<section id="step-5-communication-halo-exchange-as-a-reusable-function">
+<h3>Step 5: Communication - Halo Exchange as a Reusable Function<a class="headerlink" href="#step-5-communication-halo-exchange-as-a-reusable-function" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">exchange_x_halos</span><span class="p">(</span><span class="n">EigenMatrix</span><span class="o">&amp;</span><span class="w"> </span><span class="n">field</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">local_Nx</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                             </span><span class="n">MPI_Comm</span><span class="w"> </span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_Status</span><span class="o">&amp;</span><span class="w"> </span><span class="n">status</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Send row 1 to left neighbor, receive into row local_Nx + 1 from right</span>
+<span class="w">    </span><span class="n">MPI_Sendrecv</span><span class="p">(</span><span class="n">field</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_FLOAT</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                 </span><span class="n">field</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="n">local_Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_FLOAT</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                 </span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">status</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">// Send row local_Nx to right neighbor, receive into row 0 from left</span>
+<span class="w">    </span><span class="n">MPI_Sendrecv</span><span class="p">(</span><span class="n">field</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="n">local_Nx</span><span class="p">).</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_FLOAT</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">                 </span><span class="n">field</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_FLOAT</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">                 </span><span class="n">comm</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">status</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<section id="id3">
+<h4>What happens here?<a class="headerlink" href="#id3" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">field.row(1).data()</span></code>: Eigen exposes a raw pointer into the row’s contiguous memory, so <code class="docutils literal notranslate"><span class="pre">MPI_Sendrecv</span></code> can be called exactly as it would be on a plain C array.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MPI_FLOAT</span></code> matches the <code class="docutils literal notranslate"><span class="pre">float</span></code> precision of <code class="docutils literal notranslate"><span class="pre">EigenMatrix</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">left</span></code>/<code class="docutils literal notranslate"><span class="pre">right</span></code> use <code class="docutils literal notranslate"><span class="pre">MPI_PROC_NULL</span></code> for the domain’s outer edges, so this function needs no special-casing for rank 0 or the last rank.</p></li>
+<li><p>This function is reused for both <code class="docutils literal notranslate"><span class="pre">con</span></code> and <code class="docutils literal notranslate"><span class="pre">dummy_con</span></code>, since the stencil computation is split into two passes with a halo exchange between them.</p></li>
+</ul>
+</section>
+<section id="visual-communication-pattern">
+<h4>Visual Communication Pattern:<a class="headerlink" href="#visual-communication-pattern" title="Link to this heading"></a></h4>
+<!-- In HTML -->
+<img alt="MPI Diagram" src="../../_images/send_rec.svg" />
+</section>
+</section>
+<section id="step-6-computation-two-passes">
+<h3>Step 6: Computation - Two Passes<a class="headerlink" href="#step-6-computation-two-passes" title="Link to this heading"></a></h3>
+<p><strong>Pass 1 — chemical potential:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">compute_laplacian_and_chemical_potential</span><span class="p">(</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">EigenMatrix</span><span class="o">&amp;</span><span class="w"> </span><span class="n">con</span><span class="p">,</span><span class="w"> </span><span class="n">EigenMatrix</span><span class="o">&amp;</span><span class="w"> </span><span class="n">dfdcon</span><span class="p">,</span><span class="w"> </span><span class="n">EigenMatrix</span><span class="o">&amp;</span><span class="w"> </span><span class="n">lap_con</span><span class="p">,</span>
+<span class="w">    </span><span class="n">EigenMatrix</span><span class="o">&amp;</span><span class="w"> </span><span class="n">dummy_con</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">local_Nx</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">dx</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">dy</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">grad_coef</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">inv_dxdy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0f</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">dx</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dy</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">jp</span><span class="p">(</span><span class="n">Ny</span><span class="p">),</span><span class="w"> </span><span class="n">jm</span><span class="p">(</span><span class="n">Ny</span><span class="p">);</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">initialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">initialized</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Ny</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">jp</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">Ny</span><span class="p">;</span>
+<span class="w">            </span><span class="n">jm</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Ny</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">Ny</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">initialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">local_Nx</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">con_i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">con</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">con_ip1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">con</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">con_im1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">con</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">dfdcon_i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dfdcon</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">lap_con_i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lap_con</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">dummy_con_i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dummy_con</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Ny</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">con_i</span><span class="p">(</span><span class="n">j</span><span class="p">);</span>
+<span class="w">            </span><span class="n">dfdcon_i</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mf">2.0f</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0f</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0f</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">2.0f</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span><span class="p">));</span>
+<span class="w">            </span><span class="n">lap_con_i</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">con_ip1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">con_im1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                           </span><span class="n">con_i</span><span class="p">(</span><span class="n">jp</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">con_i</span><span class="p">(</span><span class="n">jm</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="w"> </span><span class="o">-</span>
+<span class="w">                           </span><span class="mf">4.0f</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">inv_dxdy</span><span class="p">;</span>
+<span class="w">            </span><span class="n">dummy_con_i</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dfdcon_i</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">grad_coef</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lap_con_i</span><span class="p">(</span><span class="n">j</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Pass 2 — second Laplacian and time integration:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">update_field</span><span class="p">(</span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">EigenMatrix</span><span class="o">&amp;</span><span class="w"> </span><span class="n">con</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">EigenMatrix</span><span class="o">&amp;</span><span class="w"> </span><span class="n">dummy_con</span><span class="p">,</span><span class="w"> </span><span class="n">EigenMatrix</span><span class="o">&amp;</span><span class="w"> </span><span class="n">con_new</span><span class="p">,</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">local_Nx</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">dt</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">mobility</span><span class="p">,</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">inv_dxdy</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">static</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">jp</span><span class="p">(</span><span class="n">Ny</span><span class="p">),</span><span class="w"> </span><span class="n">jm</span><span class="p">(</span><span class="n">Ny</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// ... same precomputed neighbor tables ...</span>
+
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">mobility</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">inv_dxdy</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">local_Nx</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">con_i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">con</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">dummy_i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dummy_con</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">dummy_ip1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dummy_con</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">dummy_im1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dummy_con</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="k">auto</span><span class="w"> </span><span class="n">con_new_i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">con_new</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Ny</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">const</span><span class="w"> </span><span class="kt">float</span><span class="w"> </span><span class="n">lap_dummy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">dummy_ip1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dummy_im1</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                                    </span><span class="n">dummy_i</span><span class="p">(</span><span class="n">jp</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dummy_i</span><span class="p">(</span><span class="n">jm</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="w"> </span><span class="o">-</span>
+<span class="w">                                    </span><span class="mf">4.0f</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dummy_i</span><span class="p">(</span><span class="n">j</span><span class="p">));</span>
+<span class="w">            </span><span class="kt">float</span><span class="w"> </span><span class="n">c_new</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">con_i</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">factor</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lap_dummy</span><span class="p">;</span>
+<span class="w">            </span><span class="n">con_new_i</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">max</span><span class="p">(</span><span class="n">CLAMP_LOW</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">min</span><span class="p">(</span><span class="n">c_new</span><span class="p">,</span><span class="w"> </span><span class="n">CLAMP_HIGH</span><span class="p">));</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<section id="id4">
+<h4>What happens here?<a class="headerlink" href="#id4" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">jp[j]</span></code> / <code class="docutils literal notranslate"><span class="pre">jm[j]</span></code>: precomputed once via a function-local <code class="docutils literal notranslate"><span class="pre">static</span></code> array instead of recomputed with <code class="docutils literal notranslate"><span class="pre">%</span></code> on every inner-loop iteration.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">con.row(i)</span></code>, <code class="docutils literal notranslate"><span class="pre">con.row(i+1)</span></code>, etc. return Eigen expressions bound to <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">auto&amp;</span></code>, avoiding row copies while keeping the inner loop readable.</p></li>
+<li><p>Pass 1 computes <code class="docutils literal notranslate"><span class="pre">dfdcon</span></code>, <code class="docutils literal notranslate"><span class="pre">lap_con</span></code>, and the chemical potential <code class="docutils literal notranslate"><span class="pre">dummy_con</span></code>.</p></li>
+<li><p>Pass 2 computes <code class="docutils literal notranslate"><span class="pre">lap_dummy</span></code> from <code class="docutils literal notranslate"><span class="pre">dummy_con</span></code>’s neighbors and advances the concentration field with a clamped forward-Euler step: <code class="docutils literal notranslate"><span class="pre">std::max(CLAMP_LOW,</span> <span class="pre">std::min(c_new,</span> <span class="pre">CLAMP_HIGH))</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dummy_con</span></code> needs its own halo exchange (Step 7) before Pass 2 can read its neighboring rows correctly.</p></li>
+</ul>
+</section>
+</section>
+<section id="step-7-the-evolution-loop">
+<h3>Step 7: The Evolution Loop<a class="headerlink" href="#step-7-the-evolution-loop" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">left</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">rank</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">MPI_PROC_NULL</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">rank</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">rank</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">MPI_PROC_NULL</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">rank</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">tsteps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">tsteps</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">nsteps</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">tsteps</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">exchange_x_halos</span><span class="p">(</span><span class="n">con</span><span class="p">,</span><span class="w"> </span><span class="n">local_Nx</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">compute_laplacian_and_chemical_potential</span><span class="p">(</span>
+<span class="w">        </span><span class="n">con</span><span class="p">,</span><span class="w"> </span><span class="n">dfdcon</span><span class="p">,</span><span class="w"> </span><span class="n">lap_con</span><span class="p">,</span><span class="w"> </span><span class="n">dummy_con</span><span class="p">,</span><span class="w"> </span><span class="n">local_Nx</span><span class="p">,</span><span class="w"> </span><span class="n">dx</span><span class="p">,</span><span class="w"> </span><span class="n">dy</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">grad_coef</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">exchange_x_halos</span><span class="p">(</span><span class="n">dummy_con</span><span class="p">,</span><span class="w"> </span><span class="n">local_Nx</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">update_field</span><span class="p">(</span><span class="n">con</span><span class="p">,</span><span class="w"> </span><span class="n">dummy_con</span><span class="p">,</span><span class="w"> </span><span class="n">con_new</span><span class="p">,</span><span class="w"> </span><span class="n">local_Nx</span><span class="p">,</span><span class="w"> </span><span class="n">dt</span><span class="p">,</span><span class="w"> </span><span class="n">mobility</span><span class="p">,</span><span class="w"> </span><span class="n">inv_dxdy</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">con</span><span class="p">,</span><span class="w"> </span><span class="n">con_new</span><span class="p">);</span>
+<span class="w">    </span><span class="n">apply_periodic_y</span><span class="p">(</span><span class="n">con</span><span class="p">,</span><span class="w"> </span><span class="n">local_Nx</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tsteps</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">nprint</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">rank</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Done steps = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">tsteps</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<section id="id5">
+<h4>What happens here?<a class="headerlink" href="#id5" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">MPI_PROC_NULL</span></code> makes <code class="docutils literal notranslate"><span class="pre">MPI_Sendrecv</span></code> treat the missing side as a no-op automatically, so <code class="docutils literal notranslate"><span class="pre">exchange_x_halos</span></code> needs no <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">(rank</span> <span class="pre">!=</span> <span class="pre">0)</span></code> guard.</p></li>
+<li><p>Each time step performs two halo exchanges: one for <code class="docutils literal notranslate"><span class="pre">con</span></code> before Pass 1, and one for <code class="docutils literal notranslate"><span class="pre">dummy_con</span></code> before Pass 2.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">std::swap(con,</span> <span class="pre">con_new)</span></code> is an O(1) pointer/metadata swap, no data copy.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">apply_periodic_y(con,</span> <span class="pre">local_Nx)</span></code> refreshes the ghost columns at <code class="docutils literal notranslate"><span class="pre">j</span> <span class="pre">=</span> <span class="pre">0</span></code> and <code class="docutils literal notranslate"><span class="pre">j</span> <span class="pre">=</span> <span class="pre">Ny</span> <span class="pre">-</span> <span class="pre">1</span></code> every step, right after the swap.</p></li>
+</ul>
+</section>
+<section id="data-flow-in-time-stepping">
+<h4>Data Flow in Time Stepping:<a class="headerlink" href="#data-flow-in-time-stepping" title="Link to this heading"></a></h4>
+<!-- In HTML -->
+<img alt="Data Flow" src="../../_images/data_flow.svg" />
+</section>
+</section>
+<section id="step-8-final-output">
+<h3>Step 8: Final Output<a class="headerlink" href="#step-8-final-output" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rank</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  Total Run Time = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">mpi_end_time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mpi_start_time</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; seconds.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">rows_to_print</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">min</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">local_Nx</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">rows_to_print</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">setw</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">con</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">output_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">min</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="n">local_Nx</span><span class="p">);</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">ofstream</span><span class="w"> </span><span class="n">outfile</span><span class="p">(</span><span class="s">&quot;ch_small.dat&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">output_size</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">min</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="n">Ny</span><span class="p">);</span><span class="w"> </span><span class="o">++</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">outfile</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">con</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">99</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">outfile</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<section id="id6">
+<h4>What happens here?<a class="headerlink" href="#id6" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>Only rank 0 prints and writes output — no gather step, so no communication happens in this stage.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rows_to_print</span></code>: at most 5 rows, printed to the console for a quick sanity check.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">output_size</span></code>: up to a <code class="docutils literal notranslate"><span class="pre">100</span> <span class="pre">x</span> <span class="pre">100</span></code> corner of rank 0’s local <code class="docutils literal notranslate"><span class="pre">con</span></code> array, written to <code class="docutils literal notranslate"><span class="pre">ch_small.dat</span></code>.</p></li>
+<li><p>All of the values printed and written here come from rank 0’s own local slice of the domain.</p></li>
+</ul>
+</section>
+<section id="gathering-process-visual">
+<h4>Gathering Process Visual:<a class="headerlink" href="#gathering-process-visual" title="Link to this heading"></a></h4>
+<!-- In HTML -->
+<img alt="Data Flow" src="../../_images/gather.svg" />
+</section>
+</section>
+<section id="step-9-timing-and-performance-measurement">
+<h3>Step 9: Timing and Performance Measurement<a class="headerlink" href="#step-9-timing-and-performance-measurement" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">float</span><span class="w"> </span><span class="n">mpi_start_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MPI_Wtime</span><span class="p">();</span>
+<span class="c1">// ... computation ...</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">mpi_end_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MPI_Wtime</span><span class="p">();</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;  Total Run Time = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">mpi_end_time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mpi_start_time</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; seconds.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</pre></div>
+</div>
+<section id="wall-clock-vs-mpi-time">
+<h4>Wall-clock vs MPI Time:<a class="headerlink" href="#wall-clock-vs-mpi-time" title="Link to this heading"></a></h4>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Wall</span><span class="o">-</span><span class="n">clock</span><span class="w"> </span><span class="n">time</span><span class="o">:</span><span class="w"> </span><span class="n">Overall</span><span class="w"> </span><span class="n">execution</span><span class="w"> </span><span class="n">time</span><span class="w"> </span><span class="n">including</span><span class="w"> </span><span class="n">MPI</span><span class="w"> </span><span class="n">overhead</span>
+<span class="n">MPI</span><span class="w"> </span><span class="n">time</span><span class="o">:</span><span class="w">        </span><span class="n">Time</span><span class="w"> </span><span class="n">spent</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">MPI</span><span class="w"> </span><span class="n">operations</span><span class="w"> </span><span class="p">(</span><span class="n">communication</span><span class="w"> </span><span class="n">overhead</span><span class="p">)</span>
+
+<span class="n">Total</span><span class="w"> </span><span class="n">Time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Computation</span><span class="w"> </span><span class="n">Time</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Communication</span><span class="w"> </span><span class="n">Time</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Idle</span><span class="w"> </span><span class="n">Time</span>
+</pre></div>
+</div>
+</section>
+<section id="visualization-of-complete-communication-cycle">
+<h4>Visualization of Complete Communication Cycle<a class="headerlink" href="#visualization-of-complete-communication-cycle" title="Link to this heading"></a></h4>
+<!-- In HTML -->
+<img alt="Data Flow" src="../../_images/cycle.svg" />
+</section>
+<section id="why-1d-decomposition">
+<h4>Why 1D Decomposition?<a class="headerlink" href="#why-1d-decomposition" title="Link to this heading"></a></h4>
+</section>
+<section id="advantages">
+<h4>Advantages<a class="headerlink" href="#advantages" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>Simple to implement with clear top/bottom boundary targets.</p></li>
+<li><p>Only two active neighbors to manage (left and right).</p></li>
+<li><p>Low code complexity for structured meshing.</p></li>
+<li><p>Load-balanced across ranks (Step 2).</p></li>
+</ul>
+</section>
+<section id="disadvantages">
+<h4>Disadvantages<a class="headerlink" href="#disadvantages" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>Poor scalability ceiling if using thousands of ranks.</p></li>
+<li><p>Network layout bottlenecks when partitioning data along only one direction.</p></li>
+</ul>
+<!-- In HTML -->
+<img alt="Data Flow" src="../../_images/one_vs_two.svg" />
+</section>
+</section>
+</section>
+<section id="communication-patterns-explained">
+<h2>Communication Patterns Explained<a class="headerlink" href="#communication-patterns-explained" title="Link to this heading"></a></h2>
+<section id="mpi-sendrecv-the-superhero-of-mpi">
+<h3>MPI_Sendrecv: The Superhero of MPI<a class="headerlink" href="#mpi-sendrecv-the-superhero-of-mpi" title="Link to this heading"></a></h3>
+</section>
+<section id="why-use-mpi-sendrecv-instead-of-separate-send-and-recv">
+<h3>Why use MPI_Sendrecv instead of separate Send and Recv?<a class="headerlink" href="#why-use-mpi-sendrecv-instead-of-separate-send-and-recv" title="Link to this heading"></a></h3>
+</section>
+<section id="problem-with-separate-send-recv">
+<h3>Problem with separate Send/Recv:<a class="headerlink" href="#problem-with-separate-send-recv" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// DANGER: Potential Deadlock!</span>
+<span class="n">MPI_Send</span><span class="p">(</span><span class="n">field</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_FLOAT</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_COMM_WORLD</span><span class="p">);</span>
+<span class="n">MPI_Recv</span><span class="p">(</span><span class="n">field</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="n">local_Nx</span><span class="o">+</span><span class="mi">1</span><span class="p">).</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_FLOAT</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">status</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>If both processes send first, both will wait forever (deadlock).</p>
+</section>
+<section id="solution-with-mpi-sendrecv">
+<h3>Solution with MPI_Sendrecv:<a class="headerlink" href="#solution-with-mpi-sendrecv" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// SAFE: Combined send and receive handled safely by runtime engine</span>
+<span class="n">MPI_Sendrecv</span><span class="p">(</span><span class="n">field</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_FLOAT</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">             </span><span class="n">field</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="n">local_Nx</span><span class="o">+</span><span class="mi">1</span><span class="p">).</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_FLOAT</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">             </span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">status</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>MPI handles the synchronization internally, preventing deadlocks. <code class="docutils literal notranslate"><span class="pre">MPI_PROC_NULL</span></code> means neither <code class="docutils literal notranslate"><span class="pre">left</span></code> nor <code class="docutils literal notranslate"><span class="pre">right</span></code> ever need to be checked before the call, since MPI silently skips the send or receive side when the partner is <code class="docutils literal notranslate"><span class="pre">MPI_PROC_NULL</span></code>.</p>
+</section>
+</section>
+<section id="communication-timeline">
+<h2>Communication Timeline<a class="headerlink" href="#communication-timeline" title="Link to this heading"></a></h2>
+<section id="mpi-sendrecv-execution">
+<h3>MPI_Sendrecv Execution:<a class="headerlink" href="#mpi-sendrecv-execution" title="Link to this heading"></a></h3>
+<img alt="Data Flow" src="../../_images/mpi_communication.svg" />
+</section>
+</section>
+<section id="blocking-vs-non-blocking-communication">
+<h2>Blocking vs Non-blocking Communication<a class="headerlink" href="#blocking-vs-non-blocking-communication" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Aspect</p></th>
+<th class="head text-left"><p>Blocking (This code)</p></th>
+<th class="head text-left"><p>Non-blocking (Alternative)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>Function</strong></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">MPI_Sendrecv</span></code> (via <code class="docutils literal notranslate"><span class="pre">exchange_x_halos</span></code>)</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">MPI_Isend</span></code> / <code class="docutils literal notranslate"><span class="pre">MPI_Irecv</span></code></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Behavior</strong></p></td>
+<td class="text-left"><p>Waits for completion</p></td>
+<td class="text-left"><p>Returns immediately</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Overlap</strong></p></td>
+<td class="text-left"><p>No computation during communication</p></td>
+<td class="text-left"><p>Can compute while communicating</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Complexity</strong></p></td>
+<td class="text-left"><p>Simple</p></td>
+<td class="text-left"><p>Requires <code class="docutils literal notranslate"><span class="pre">MPI_Wait</span></code> / <code class="docutils literal notranslate"><span class="pre">MPI_Test</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Performance</strong></p></td>
+<td class="text-left"><p>Lower for large messages</p></td>
+<td class="text-left"><p>Higher potential performance</p></td>
+</tr>
+</tbody>
+</table>
+<section id="non-blocking-would-look-like">
+<h3>Non-blocking would look like:<a class="headerlink" href="#non-blocking-would-look-like" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">MPI_Request</span><span class="w"> </span><span class="n">req</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+<span class="n">MPI_Isend</span><span class="p">(</span><span class="n">field</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_FLOAT</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">req</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="n">MPI_Irecv</span><span class="p">(</span><span class="n">field</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="n">local_Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">).</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_FLOAT</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">req</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="c1">// Compute here while communication happens!</span>
+<span class="n">MPI_Waitall</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">req</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_STATUSES_IGNORE</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="running-the-code">
+<h3>Running the Code<a class="headerlink" href="#running-the-code" title="Link to this heading"></a></h3>
+<section id="compilation">
+<h4>Compilation<a class="headerlink" href="#compilation" title="Link to this heading"></a></h4>
+<p><strong>Linux (GCC/OpenMPI, with Eigen headers on the include path):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mpic++<span class="w"> </span>main.cpp<span class="w"> </span>-O3<span class="w"> </span>-march<span class="o">=</span>native<span class="w"> </span>-std<span class="o">=</span>c++20<span class="w"> </span>-I<span class="w"> </span>/usr/include/eigen3/<span class="w"> </span>-o<span class="w"> </span>main
+</pre></div>
+</div>
+<p><strong>Windows (Intel MPI):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mpiicpx<span class="w"> </span>-I<span class="s2">&quot;C:\libs\eigen-5.0.0&quot;</span><span class="w"> </span>main.cpp
+</pre></div>
+</div>
+<p>Eigen is a header-only library, so <code class="docutils literal notranslate"><span class="pre">-I</span></code> points at the headers and nothing needs to be linked. <code class="docutils literal notranslate"><span class="pre">-march=native</span></code> lets the compiler auto-vectorize the <code class="docutils literal notranslate"><span class="pre">float</span></code> stencil loops for the specific CPU it’s built on.</p>
+</section>
+<section id="running">
+<h4>Running<a class="headerlink" href="#running" title="Link to this heading"></a></h4>
+<p><strong>Basic Run (4 processes):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mpirun<span class="w"> </span>-np<span class="w"> </span><span class="m">4</span><span class="w"> </span>./main
+</pre></div>
+</div>
+<p>Scale <code class="docutils literal notranslate"><span class="pre">-np</span></code> based on available cores and memory — each rank needs <code class="docutils literal notranslate"><span class="pre">local_Nx_halo</span> <span class="pre">x</span> <span class="pre">Ny</span> <span class="pre">x</span> <span class="pre">4</span> <span class="pre">bytes</span> <span class="pre">x</span> <span class="pre">5</span> <span class="pre">arrays</span></code> of memory.</p>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="common-pitfalls-and-solutions">
+<h2>Common Pitfalls and Solutions<a class="headerlink" href="#common-pitfalls-and-solutions" title="Link to this heading"></a></h2>
+<section id="column-major-eigen-arrays">
+<h3>1. Column-Major Eigen Arrays<a class="headerlink" href="#column-major-eigen-arrays" title="Link to this heading"></a></h3>
+<p><strong>Problem:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Wrong: default Eigen storage order is ColMajor</span>
+<span class="k">using</span><span class="w"> </span><span class="n">EigenMatrix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Array</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Dynamic</span><span class="p">,</span><span class="w"> </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Dynamic</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="c1">// field.row(i).data() no longer points at contiguous row memory!</span>
+</pre></div>
+</div>
+<p><strong>Solution:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Correct: explicit RowMajor storage</span>
+<span class="k">using</span><span class="w"> </span><span class="n">EigenMatrix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Array</span><span class="o">&lt;</span><span class="kt">float</span><span class="p">,</span><span class="w"> </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Dynamic</span><span class="p">,</span><span class="w"> </span><span class="n">Eigen</span><span class="o">::</span><span class="n">Dynamic</span><span class="p">,</span><span class="w"> </span><span class="n">Eigen</span><span class="o">::</span><span class="n">RowMajor</span><span class="o">&gt;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">field.row(i).data()</span></code> must point to <code class="docutils literal notranslate"><span class="pre">Ny</span></code> contiguous floats for <code class="docutils literal notranslate"><span class="pre">MPI_Sendrecv</span></code> to work correctly.</p>
+</section>
+<section id="forgetting-the-second-halo-exchange">
+<h3>2. Forgetting the Second Halo Exchange<a class="headerlink" href="#forgetting-the-second-halo-exchange" title="Link to this heading"></a></h3>
+<p><strong>Problem:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">exchange_x_halos</span><span class="p">(</span><span class="n">con</span><span class="p">,</span><span class="w"> </span><span class="n">local_Nx</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="p">);</span>
+<span class="n">compute_laplacian_and_chemical_potential</span><span class="p">(</span><span class="n">con</span><span class="p">,</span><span class="w"> </span><span class="n">dfdcon</span><span class="p">,</span><span class="w"> </span><span class="n">lap_con</span><span class="p">,</span><span class="w"> </span><span class="n">dummy_con</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span>
+<span class="c1">// Missing: exchange_x_halos(dummy_con, ...)</span>
+<span class="n">update_field</span><span class="p">(</span><span class="n">con</span><span class="p">,</span><span class="w"> </span><span class="n">dummy_con</span><span class="p">,</span><span class="w"> </span><span class="n">con_new</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span><span class="w">  </span><span class="c1">// reads stale dummy_con halos!</span>
+</pre></div>
+</div>
+<p><strong>Solution:</strong> Exchange <code class="docutils literal notranslate"><span class="pre">dummy_con</span></code>’s halos between the two computation passes, as shown in Step 7.</p>
+</section>
+<section id="forgetting-apply-periodic-y-after-the-swap">
+<h3>3. Forgetting <code class="docutils literal notranslate"><span class="pre">apply_periodic_y</span></code> After the Swap<a class="headerlink" href="#forgetting-apply-periodic-y-after-the-swap" title="Link to this heading"></a></h3>
+<p><strong>Problem:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">con</span><span class="p">,</span><span class="w"> </span><span class="n">con_new</span><span class="p">);</span>
+<span class="c1">// Missing: apply_periodic_y(con, local_Nx);</span>
+<span class="c1">// Next iteration&#39;s stencil reads stale y-boundary values from before the swap</span>
+</pre></div>
+</div>
+<p><strong>Solution:</strong> Call <code class="docutils literal notranslate"><span class="pre">apply_periodic_y(con,</span> <span class="pre">local_Nx)</span></code> immediately after every swap, as shown in Step 7.</p>
+</section>
+<section id="mismatched-mpi-datatype">
+<h3>4. Mismatched MPI Datatype<a class="headerlink" href="#mismatched-mpi-datatype" title="Link to this heading"></a></h3>
+<p><strong>Problem:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">MPI_Sendrecv</span><span class="p">(</span><span class="n">field</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_DOUBLE</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span><span class="w">  </span><span class="c1">// Wrong! Array is float</span>
+</pre></div>
+</div>
+<p><strong>Solution:</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">MPI_Sendrecv</span><span class="p">(</span><span class="n">field</span><span class="p">.</span><span class="n">row</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_FLOAT</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span><span class="w">  </span><span class="c1">// Matches EigenMatrix&#39;s float</span>
+</pre></div>
+</div>
+</section>
+<section id="assuming-rank-0-s-output-is-the-full-domain">
+<h3>5. Assuming Rank 0’s Output Is the Full Domain<a class="headerlink" href="#assuming-rank-0-s-output-is-the-full-domain" title="Link to this heading"></a></h3>
+<p><strong>Problem:</strong> Treating <code class="docutils literal notranslate"><span class="pre">ch_small.dat</span></code> as a full-field snapshot, when it only contains rank 0’s local corner.</p>
+<p><strong>Solution:</strong> Add a gather step (see <a class="reference internal" href="#advanced-topics"><span class="xref myst">Advanced Topics</span></a>) if the complete <code class="docutils literal notranslate"><span class="pre">5000</span> <span class="pre">x</span> <span class="pre">5000</span></code> field is needed.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="advanced-topics">
+<h2>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Link to this heading"></a></h2>
+<section id="full-domain-gather">
+<h3>Full-Domain Gather<a class="headerlink" href="#full-domain-gather" title="Link to this heading"></a></h3>
+<p>To collect the complete field on rank 0 (e.g. for plotting):</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rank</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">EigenMatrix</span><span class="w"> </span><span class="n">full_con</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">EigenMatrix</span><span class="o">::</span><span class="n">Zero</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="w"> </span><span class="n">Ny</span><span class="p">);</span>
+<span class="w">    </span><span class="n">full_con</span><span class="p">.</span><span class="n">block</span><span class="p">(</span><span class="n">start_x</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">local_Nx</span><span class="p">,</span><span class="w"> </span><span class="n">Ny</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">con</span><span class="p">.</span><span class="n">block</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">local_Nx</span><span class="p">,</span><span class="w"> </span><span class="n">Ny</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">p_local_Nx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">base_Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">remainder</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">p_start_x</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">base_Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">min</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">remainder</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="w"> </span><span class="n">recv_buf</span><span class="p">(</span><span class="n">p_local_Nx</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Ny</span><span class="p">);</span>
+<span class="w">        </span><span class="n">MPI_Recv</span><span class="p">(</span><span class="n">recv_buf</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="n">p_local_Nx</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_FLOAT</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">                 </span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_STATUS_IGNORE</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// Copy recv_buf into full_con.block(p_start_x, 0, p_local_Nx, Ny)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">MPI_Send</span><span class="p">(</span><span class="n">con</span><span class="p">.</span><span class="n">data</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="n">local_Nx</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_FLOAT</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">MPI_COMM_WORLD</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Each rank’s row count and starting offset are recomputed with <code class="docutils literal notranslate"><span class="pre">base_Nx</span></code> / <code class="docutils literal notranslate"><span class="pre">remainder</span></code>, since the decomposition is load-balanced rather than uniform.</p>
+</section>
+<section id="non-blocking-halo-exchange">
+<h3>Non-blocking Halo Exchange<a class="headerlink" href="#non-blocking-halo-exchange" title="Link to this heading"></a></h3>
+<p>Convert <code class="docutils literal notranslate"><span class="pre">exchange_x_halos</span></code> to <code class="docutils literal notranslate"><span class="pre">MPI_Isend</span></code>/<code class="docutils literal notranslate"><span class="pre">MPI_Irecv</span></code> so the CPU can start <code class="docutils literal notranslate"><span class="pre">compute_laplacian_and_chemical_potential</span></code> on interior rows while boundary rows are still in flight.</p>
+</section>
+<section id="mpi-openmp-hybrid">
+<h3>MPI + OpenMP Hybrid<a class="headerlink" href="#mpi-openmp-hybrid" title="Link to this heading"></a></h3>
+<p>Combine with OpenMP to parallelize the inner <code class="docutils literal notranslate"><span class="pre">j</span></code> loops of <code class="docutils literal notranslate"><span class="pre">compute_laplacian_and_chemical_potential</span></code> and <code class="docutils literal notranslate"><span class="pre">update_field</span></code> within each rank:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma omp parallel for</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">local_Nx</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// existing row-wise computation</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="precision-trade-offs">
+<h3>Precision Trade-offs<a class="headerlink" href="#precision-trade-offs" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">float</span></code> halves memory and communication volume relative to <code class="docutils literal notranslate"><span class="pre">double</span></code>, at the cost of reduced precision — worth profiling both for simulations sensitive to numerical drift over long runs.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="appendix-quick-reference">
+<h2>Appendix: Quick Reference<a class="headerlink" href="#appendix-quick-reference" title="Link to this heading"></a></h2>
+<section id="key-constants">
+<h3>Key Constants<a class="headerlink" href="#key-constants" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Constant</p></th>
+<th class="head text-left"><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Nx</span></code>, <code class="docutils literal notranslate"><span class="pre">Ny</span></code></p></td>
+<td class="text-left"><p>5000, 5000</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">nsteps</span></code></p></td>
+<td class="text-left"><p>1000</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">dt</span></code></p></td>
+<td class="text-left"><p>0.01f</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p>Precision</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">CLAMP_LOW</span></code> / <code class="docutils literal notranslate"><span class="pre">CLAMP_HIGH</span></code></p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">1e-5f</span></code> / <code class="docutils literal notranslate"><span class="pre">0.99999f</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mpi-functions-used">
+<h3>MPI Functions Used<a class="headerlink" href="#mpi-functions-used" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Function</p></th>
+<th class="head text-left"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">MPI_Init</span></code> / <code class="docutils literal notranslate"><span class="pre">MPI_Finalize</span></code></p></td>
+<td class="text-left"><p>Start/stop the MPI environment</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">MPI_Comm_rank</span></code> / <code class="docutils literal notranslate"><span class="pre">MPI_Comm_size</span></code></p></td>
+<td class="text-left"><p>Identify this process / count all processes</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">MPI_Sendrecv</span></code></p></td>
+<td class="text-left"><p>Combined, deadlock-safe send + receive</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">MPI_PROC_NULL</span></code></p></td>
+<td class="text-left"><p>“No-op” neighbor for domain edges</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">MPI_Wtime</span></code></p></td>
+<td class="text-left"><p>High-resolution wall-clock timer</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="eigen-types-used">
+<h3>Eigen Types Used<a class="headerlink" href="#eigen-types-used" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Type</p></th>
+<th class="head text-left"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Eigen::Array&lt;float,</span> <span class="pre">Dynamic,</span> <span class="pre">Dynamic,</span> <span class="pre">RowMajor&gt;</span></code></p></td>
+<td class="text-left"><p>The <code class="docutils literal notranslate"><span class="pre">EigenMatrix</span></code> alias — contiguous rows for MPI</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">EigenMatrix::Zero(rows,</span> <span class="pre">cols)</span></code></p></td>
+<td class="text-left"><p>Allocate + zero-initialize</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">field.row(i)</span></code></p></td>
+<td class="text-left"><p>Row accessor, <code class="docutils literal notranslate"><span class="pre">.data()</span></code> gives a raw contiguous pointer</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">field.block(row,</span> <span class="pre">col,</span> <span class="pre">rows,</span> <span class="pre">cols)</span></code></p></td>
+<td class="text-left"><p>Sub-block view/assignment, useful for gather-style code</p></td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="High Performance Computing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../openmp/index.html" class="btn btn-neutral float-right" title="OpenMP Finite Difference Phase Field Code - A Tutorial Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Shahid Maqbool.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="monospace">
+  <!-- Background -->
+  <rect width="800" height="450" fill="#ffffff"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#2c3e50">Euler Time Integration in OpenMP</text>
+  
+  <!-- Main equation box -->
+  <rect x="100" y="55" width="600" height="80" rx="6" ry="6" fill="#d6eaf8" stroke="#2980b9" stroke-width="2.5"/>
+  <text x="400" y="85" text-anchor="middle" font-size="14" font-weight="bold" fill="#2980b9">Euler Integration Formula</text>
+  <text x="400" y="112" text-anchor="middle" font-size="16" font-weight="bold" fill="#2c3e50">con_new = con + dt × mobility × ∇²(∂f/∂c - κ∇²c)</text>
+  
+  <!-- Arrow down -->
+  <line x1="400" y1="135" x2="400" y2="165" stroke="#e67e22" stroke-width="3"/>
+  <polygon points="392,160 408,160 400,170" fill="#e67e22"/>
+  
+  <!-- Update each grid point independently -->
+  <rect x="100" y="175" width="600" height="70" rx="6" ry="6" fill="#fdebd0" stroke="#e67e22" stroke-width="2.5"/>
+  <text x="400" y="205" text-anchor="middle" font-size="15" font-weight="bold" fill="#e67e22">Update each grid point independently</text>
+  <text x="400" y="230" text-anchor="middle" font-size="12" fill="#2c3e50">for (i,j): con_new[i][j] = con[i][j] + dt × mobility × lap_dummy[i][j]</text>
+  
+  <!-- Arrow down -->
+  <line x1="400" y1="245" x2="400" y2="275" stroke="#2ecc71" stroke-width="3"/>
+  <polygon points="392,270 408,270 400,280" fill="#2ecc71"/>
+  
+  <!-- No dependency between grid points -->
+  <rect x="100" y="285" width="600" height="90" rx="6" ry="6" fill="#d5f5e3" stroke="#27ae60" stroke-width="2.5"/>
+  <text x="400" y="315" text-anchor="middle" font-size="15" font-weight="bold" fill="#27ae60">No dependency between grid points</text>
+  <text x="400" y="340" text-anchor="middle" font-size="12" fill="#2c3e50">Each update is independent and can be computed in parallel</text>
+  
+  <!-- Parallel execution box -->
+  <rect x="150" y="360" width="500" height="45" rx="4" ry="4" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1.5"/>
+  <text x="400" y="380" text-anchor="middle" font-size="12" font-weight="bold" fill="#2c3e50">Thread 0: i=0..N/4  |  Thread 1: i=N/4..N/2  |  Thread 2: i=N/2..3N/4  |  Thread N: i=3N/4..N</text>
+  <text x="400" y="397" text-anchor="middle" font-size="10" fill="#7f8c8d">All threads execute the same computation on different portions of the array</text>
+</svg>

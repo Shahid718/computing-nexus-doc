@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 480" font-family="monospace">
+  <!-- Background -->
+  <rect width="700" height="480" fill="#ffffff"/>
+  
+  <!-- Title -->
+  <text x="350" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#2c3e50">Gathering Process Visual</text>
+  
+  <!-- Master (Rank 0) -->
+  <rect x="250" y="50" width="200" height="130" rx="6" ry="6" fill="#d6eaf8" stroke="#2980b9" stroke-width="2.5"/>
+  <rect x="250" y="50" width="200" height="30" rx="6" ry="6" fill="#3498db" stroke="#2980b9" stroke-width="2.5"/>
+  <text x="350" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Master (Rank 0)</text>
+  
+  <!-- Master rows -->
+  <rect x="270" y="95" width="70" height="35" rx="3" fill="#ebf5fb" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="305" y="117" text-anchor="middle" font-size="11" fill="#2c3e50">Row 1</text>
+  
+  <rect x="360" y="95" width="70" height="35" rx="3" fill="#ebf5fb" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="395" y="117" text-anchor="middle" font-size="11" fill="#2c3e50">Row 2</text>
+  
+  <!-- Center line from master down -->
+  <line x1="350" y1="180" x2="350" y2="220" stroke="#7f8c8d" stroke-width="2"/>
+  <polygon points="344,215 356,215 350,223" fill="#7f8c8d"/>
+  
+  <!-- Horizontal lines from center to ranks -->
+  <line x1="350" y1="215" x2="150" y2="215" stroke="#7f8c8d" stroke-width="2"/>
+  <line x1="350" y1="215" x2="550" y2="215" stroke="#7f8c8d" stroke-width="2"/>
+  
+  <!-- Vertical lines down to each rank -->
+  <line x1="150" y1="215" x2="150" y2="250" stroke="#7f8c8d" stroke-width="2"/>
+  <polygon points="144,245 156,245 150,253" fill="#7f8c8d"/>
+  
+  <line x1="350" y1="215" x2="350" y2="250" stroke="#7f8c8d" stroke-width="2"/>
+  <polygon points="344,245 356,245 350,253" fill="#7f8c8d"/>
+  
+  <line x1="550" y1="215" x2="550" y2="250" stroke="#7f8c8d" stroke-width="2"/>
+  <polygon points="544,245 556,245 550,253" fill="#7f8c8d"/>
+  
+  <!-- Rank 1 -->
+  <rect x="70" y="255" width="160" height="130" rx="6" ry="6" fill="#d5f5e3" stroke="#27ae60" stroke-width="2.5"/>
+  <rect x="70" y="255" width="160" height="30" rx="6" ry="6" fill="#2ecc71" stroke="#27ae60" stroke-width="2.5"/>
+  <text x="150" y="275" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Rank 1</text>
+  
+  <!-- Rank 1 rows -->
+  <rect x="90" y="300" width="120" height="35" rx="3" fill="#d5f5e3" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="150" y="322" text-anchor="middle" font-size="11" fill="#2c3e50">Row 3</text>
+  
+  <rect x="90" y="340" width="120" height="35" rx="3" fill="#d5f5e3" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="150" y="362" text-anchor="middle" font-size="11" fill="#2c3e50">Row 4</text>
+  
+  <!-- Rank 2 -->
+  <rect x="270" y="255" width="160" height="130" rx="6" ry="6" fill="#fdebd0" stroke="#e67e22" stroke-width="2.5"/>
+  <rect x="270" y="255" width="160" height="30" rx="6" ry="6" fill="#f39c12" stroke="#e67e22" stroke-width="2.5"/>
+  <text x="350" y="275" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Rank 2</text>
+  
+  <!-- Rank 2 rows -->
+  <rect x="290" y="300" width="120" height="35" rx="3" fill="#fdebd0" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="350" y="322" text-anchor="middle" font-size="11" fill="#2c3e50">Row 5</text>
+  
+  <rect x="290" y="340" width="120" height="35" rx="3" fill="#fdebd0" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="350" y="362" text-anchor="middle" font-size="11" fill="#2c3e50">Row 6</text>
+  
+  <!-- Rank 3 -->
+  <rect x="470" y="255" width="160" height="130" rx="6" ry="6" fill="#ebdef0" stroke="#8e44ad" stroke-width="2.5"/>
+  <rect x="470" y="255" width="160" height="30" rx="6" ry="6" fill="#9b59b6" stroke="#8e44ad" stroke-width="2.5"/>
+  <text x="550" y="275" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Rank 3</text>
+  
+  <!-- Rank 3 rows -->
+  <rect x="490" y="300" width="120" height="35" rx="3" fill="#ebdef0" stroke="#8e44ad" stroke-width="1.5"/>
+  <text x="550" y="322" text-anchor="middle" font-size="11" fill="#2c3e50">Row 7</text>
+  
+  <rect x="490" y="340" width="120" height="35" rx="3" fill="#ebdef0" stroke="#8e44ad" stroke-width="1.5"/>
+  <text x="550" y="362" text-anchor="middle" font-size="11" fill="#2c3e50">Row 8</text>
+  
+  <!-- MPI Send arrows from each rank to master -->
+  <!-- Rank 1 to Master -->
+  <path d="M 150 255 L 150 140 L 340 140" fill="none" stroke="#e74c3c" stroke-width="2.5"/>
+  <polygon points="335,135 345,140 335,145" fill="#e74c3c"/>
+  <text x="160" y="190" font-size="9" fill="#e74c3c">MPI_Send</text>
+  
+  <!-- Rank 2 to Master (straight up) -->
+  <line x1="350" y1="255" x2="350" y2="185" stroke="#e74c3c" stroke-width="2.5"/>
+  <polygon points="345,190 355,185 345,180" fill="#e74c3c"/>
+  <text x="360" y="225" font-size="9" fill="#e74c3c">MPI_Send</text>
+  
+  <!-- Rank 3 to Master -->
+  <path d="M 550 255 L 550 140 L 360 140" fill="none" stroke="#e74c3c" stroke-width="2.5"/>
+  <polygon points="355,135 365,140 355,145" fill="#e74c3c"/>
+  <text x="540" y="190" font-size="9" fill="#e74c3c">MPI_Send</text>
+  
+  <!-- Legend -->
+  <rect x="40" y="410" width="620" height="55" rx="4" ry="4" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1.5"/>
+  <text x="60" y="432" font-size="12" font-weight="bold" fill="#495057">Legend:</text>
+  
+  <line x1="160" y1="432" x2="190" y2="432" stroke="#e74c3c" stroke-width="2.5"/>
+  <polygon points="185,427 195,432 185,437" fill="#e74c3c"/>
+  <text x="200" y="437" font-size="11" fill="#495057">MPI_Send to master</text>
+  
+  <rect x="360" y="422" width="20" height="15" rx="3" fill="#d6eaf8" stroke="#2980b9" stroke-width="1"/>
+  <text x="390" y="437" font-size="11" fill="#495057">Master data (Rows 1-2)</text>
+  
+  <rect x="530" y="422" width="20" height="15" rx="3" fill="#d5f5e3" stroke="#27ae60" stroke-width="1"/>
+  <text x="560" y="437" font-size="11" fill="#495057">Worker data (Rows 3-8)</text>
+</svg>

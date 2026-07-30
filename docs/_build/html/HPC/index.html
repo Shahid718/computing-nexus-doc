@@ -1,0 +1,199 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>High Performance Computing &mdash; Computing Nexus docs 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="MPI Finite Difference Phase Field Code - A Tutorial Guide" href="mpi/index.html" />
+    <link rel="prev" title="Computing Nexus Documentation" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Computing Nexus docs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">High Performance Computing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-hpc-landscape">The HPC Landscape</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#distributed-programming-mpi">1. Distributed Programming (MPI)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shared-memory-programming-openmp">2. Shared Memory Programming (OpenMP)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#heterogeneous-programming-gpu-cuda">3. Heterogeneous Programming (GPU/CUDA)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#hybrid-hpc-approach">Hybrid HPC Approach</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hpc-system-architecture-overview">HPC System Architecture Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mpi/index.html">MPI Finite Difference Phase Field Code - A Tutorial Guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="openmp/index.html">OpenMP Finite Difference Phase Field Code - A Tutorial Guide</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cuda/index.html">CUDA Finite Difference Phase Field Code - A Tutorial Guide</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Programming_Styles/index.html">Programming Styles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Pitfalls/index.html">Common Programming Pitfalls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Articles/index.html">Articles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Machine_Learning/index.html">Machine Learning</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Computing Nexus docs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">High Performance Computing</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/HPC/index.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <style>H1{color:Black;}</style>
+<style>H2{color:DarkOrange;}</style>
+<style>p{color:Black;}</style>
+<section class="tex2jax_ignore mathjax_ignore" id="high-performance-computing">
+<h1>High Performance Computing<a class="headerlink" href="#high-performance-computing" title="Link to this heading"></a></h1>
+<p>High Performance Computing (HPC) involves using powerful computing resources to solve complex scientific and engineering problems that are too large or computationally intensive for standard computers. HPC systems typically consist of thousands of computing nodes working together to achieve results faster than would be possible with a single computer.</p>
+<section id="the-hpc-landscape">
+<h2>The HPC Landscape<a class="headerlink" href="#the-hpc-landscape" title="Link to this heading"></a></h2>
+<p>Modern HPC systems leverage three primary programming models, each addressing different aspects of computational performance:</p>
+<section id="distributed-programming-mpi">
+<h3>1. Distributed Programming (MPI)<a class="headerlink" href="#distributed-programming-mpi" title="Link to this heading"></a></h3>
+<p>Distributed programming uses the Message Passing Interface (MPI) to enable communication between multiple independent processes running on different compute nodes. Each process has its own memory space and communicates with others via messages over a network.</p>
+<p><strong>Key characteristics:</strong></p>
+<ul class="simple">
+<li><p>Multiple nodes connected via high-speed interconnects</p></li>
+<li><p>Independent memory spaces</p></li>
+<li><p>Communication via message passing</p></li>
+<li><p>Scales to thousands of nodes</p></li>
+<li><p>Languages: C++, Fortran</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">Use</span> <span class="pre">Case:</span></code> Large-scale simulations requiring massive parallelism across many compute nodes.</p>
+</section>
+<section id="shared-memory-programming-openmp">
+<h3>2. Shared Memory Programming (OpenMP)<a class="headerlink" href="#shared-memory-programming-openmp" title="Link to this heading"></a></h3>
+<p>Shared memory programming allows multiple threads within a single process to access the same memory space. OpenMP provides a simple directive-based approach to parallelize loops and sections of code.</p>
+<p><strong>Key characteristics:</strong></p>
+<ul class="simple">
+<li><p>Single node with shared memory</p></li>
+<li><p>Thread-level parallelism</p></li>
+<li><p>Direct memory access</p></li>
+<li><p>Easy to implement</p></li>
+<li><p>Languages: C++, Fortran</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">Use</span> <span class="pre">Case:</span></code> Node-level parallelism where data is shared among threads on a single compute node.</p>
+</section>
+<section id="heterogeneous-programming-gpu-cuda">
+<h3>3. Heterogeneous Programming (GPU/CUDA)<a class="headerlink" href="#heterogeneous-programming-gpu-cuda" title="Link to this heading"></a></h3>
+<p>Heterogeneous programming utilizes accelerators like GPUs alongside CPUs to perform massively parallel computations. CUDA (Compute Unified Device Architecture) enables developers to harness GPU computing power for data-parallel workloads.</p>
+<p><strong>Key characteristics:</strong></p>
+<p>CPU + GPU hybrid architecture</p>
+<ul class="simple">
+<li><p>Massive parallelism (thousands of cores)</p></li>
+<li><p>Data-parallel workloads</p></li>
+<li><p>Memory management between host and device</p></li>
+<li><p>Languages: C++, CUDA</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">Use</span> <span class="pre">Case:</span></code> Highly parallel computations like matrix operations, machine learning, and scientific simulations.</p>
+</section>
+</section>
+<section id="hybrid-hpc-approach">
+<h2>Hybrid HPC Approach<a class="headerlink" href="#hybrid-hpc-approach" title="Link to this heading"></a></h2>
+<p>Modern HPC applications often combine all three models:</p>
+<ul class="simple">
+<li><p>MPI for inter-node communication</p></li>
+<li><p>OpenMP for intra-node parallelism</p></li>
+<li><p>CUDA for GPU acceleration</p></li>
+</ul>
+</section>
+<section id="hpc-system-architecture-overview">
+<h2>HPC System Architecture Overview<a class="headerlink" href="#hpc-system-architecture-overview" title="Link to this heading"></a></h2>
+<p>The diagram below illustrates the typical HPC system architecture:</p>
+<!-- In HTML -->
+<img alt="HPC" src="../_images/hpc.svg" />
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">HPC Programming Models</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="mpi/index.html">MPI Finite Difference Phase Field Code - A Tutorial Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="openmp/index.html">OpenMP Finite Difference Phase Field Code - A Tutorial Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cuda/index.html">CUDA Finite Difference Phase Field Code - A Tutorial Guide</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Computing Nexus Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mpi/index.html" class="btn btn-neutral float-right" title="MPI Finite Difference Phase Field Code - A Tutorial Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Shahid Maqbool.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

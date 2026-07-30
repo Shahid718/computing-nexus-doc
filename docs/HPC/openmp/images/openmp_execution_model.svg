@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" font-family="monospace">
+  <!-- Background -->
+  <rect width="800" height="400" fill="#ffffff"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#2c3e50">OpenMP Parallel Execution Model</text>
+  
+  <!-- Main box representing shared memory -->
+  <rect x="50" y="50" width="700" height="300" rx="6" ry="6" fill="#d6eaf8" stroke="#2980b9" stroke-width="2.5"/>
+  <text x="400" y="75" text-anchor="middle" font-size="14" font-weight="bold" fill="#2980b9">Shared Memory (Arrays: con, dfdcon, lap_con, etc.)</text>
+  
+  <!-- Shared data representation -->
+  <rect x="100" y="90" width="600" height="40" rx="4" ry="4" fill="#ebf5fb" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="400" y="115" text-anchor="middle" font-size="11" fill="#2c3e50">con[0..Nx-1][0..Ny-1]  |  dfdcon[0..Nx-1][0..Ny-1]  |  lap_con[0..Nx-1][0..Ny-1]</text>
+  
+  <!-- Threads accessing shared memory -->
+  <!-- Thread 0 -->
+  <rect x="100" y="160" width="130" height="45" rx="4" ry="4" fill="#3498db" stroke="#2980b9" stroke-width="2"/>
+  <text x="165" y="187" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Thread 0</text>
+  
+  <!-- Thread 1 -->
+  <rect x="270" y="160" width="130" height="45" rx="4" ry="4" fill="#2ecc71" stroke="#27ae60" stroke-width="2"/>
+  <text x="335" y="187" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Thread 1</text>
+  
+  <!-- Thread 2 -->
+  <rect x="440" y="160" width="130" height="45" rx="4" ry="4" fill="#e67e22" stroke="#d35400" stroke-width="2"/>
+  <text x="505" y="187" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Thread 2</text>
+  
+  <!-- Thread N -->
+  <rect x="610" y="160" width="130" height="45" rx="4" ry="4" fill="#8e44ad" stroke="#6c3483" stroke-width="2"/>
+  <text x="675" y="187" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Thread N</text>
+  
+  <!-- Arrows from threads to shared memory -->
+  <line x1="165" y1="145" x2="165" y2="130" stroke="#7f8c8d" stroke-width="1.5"/>
+  <polygon points="161,135 165,128 169,135" fill="#7f8c8d"/>
+  
+  <line x1="335" y1="145" x2="335" y2="130" stroke="#7f8c8d" stroke-width="1.5"/>
+  <polygon points="331,135 335,128 339,135" fill="#7f8c8d"/>
+  
+  <line x1="505" y1="145" x2="505" y2="130" stroke="#7f8c8d" stroke-width="1.5"/>
+  <polygon points="501,135 505,128 509,135" fill="#7f8c8d"/>
+  
+  <line x1="675" y1="145" x2="675" y2="130" stroke="#7f8c8d" stroke-width="1.5"/>
+  <polygon points="671,135 675,128 679,135" fill="#7f8c8d"/>
+  
+  <!-- Work distribution -->
+  <rect x="100" y="230" width="600" height="90" rx="4" ry="4" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1.5"/>
+  <text x="400" y="252" text-anchor="middle" font-size="11" font-weight="bold" fill="#2c3e50">Loop Iteration Distribution (OpenMP Scheduler)</text>
+  
+  <!-- Bars showing iteration distribution -->
+  <rect x="120" y="270" width="100" height="30" rx="3" fill="#3498db" stroke="#2980b9" stroke-width="1"/>
+  <text x="170" y="290" text-anchor="middle" font-size="9" fill="white">i=0..N/4</text>
+  
+  <rect x="240" y="270" width="100" height="30" rx="3" fill="#2ecc71" stroke="#27ae60" stroke-width="1"/>
+  <text x="290" y="290" text-anchor="middle" font-size="9" fill="white">i=N/4..N/2</text>
+  
+  <rect x="360" y="270" width="100" height="30" rx="3" fill="#e67e22" stroke="#d35400" stroke-width="1"/>
+  <text x="410" y="290" text-anchor="middle" font-size="9" fill="white">i=N/2..3N/4</text>
+  
+  <rect x="480" y="270" width="100" height="30" rx="3" fill="#8e44ad" stroke="#6c3483" stroke-width="1"/>
+  <text x="530" y="290" text-anchor="middle" font-size="9" fill="white">i=3N/4..N</text>
+  
+  <!-- Legend -->
+  <rect x="50" y="360" width="700" height="30" rx="4" ry="4" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1"/>
+  <text x="70" y="380" font-size="10" fill="#7f8c8d">All threads share the same memory space | Each thread works on a different portion of the loop</text>
+</svg>

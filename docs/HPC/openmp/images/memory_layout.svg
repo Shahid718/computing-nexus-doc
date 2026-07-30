@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" font-family="monospace">
+  <!-- Background -->
+  <rect width="700" height="400" fill="#ffffff"/>
+  
+  <!-- Title -->
+  <text x="350" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#2c3e50">OpenMP Shared Memory Model</text>
+  
+  <!-- Main shared memory box -->
+  <rect x="80" y="50" width="540" height="140" rx="6" ry="6" fill="#d6eaf8" stroke="#2980b9" stroke-width="2.5"/>
+  <text x="350" y="78" text-anchor="middle" font-size="14" font-weight="bold" fill="#2980b9">con[0..Nx-1][0..Ny-1]</text>
+  <text x="350" y="100" text-anchor="middle" font-size="12" fill="#2c3e50">Full 2D Array (Shared Memory)</text>
+  
+  <!-- Grid inside shared memory -->
+  <g>
+    <!-- Row labels -->
+    <text x="95" y="130" font-size="9" fill="#2980b9">Row 0</text>
+    <text x="95" y="150" font-size="9" fill="#2980b9">Row 1</text>
+    <text x="95" y="170" font-size="9" fill="#2980b9">Row ...</text>
+    <text x="95" y="190" font-size="9" fill="#2980b9">Row Nx-1</text>
+    
+    <!-- Grid cells -->
+    <rect x="140" y="120" width="30" height="20" rx="2" fill="#ebf5fb" stroke="#2980b9" stroke-width="1"/>
+    <rect x="175" y="120" width="30" height="20" rx="2" fill="#ebf5fb" stroke="#2980b9" stroke-width="1"/>
+    <rect x="210" y="120" width="30" height="20" rx="2" fill="#ebf5fb" stroke="#2980b9" stroke-width="1"/>
+    <text x="155" y="134" font-size="8" fill="#2c3e50">0,0</text>
+    <text x="190" y="134" font-size="8" fill="#2c3e50">0,1</text>
+    <text x="225" y="134" font-size="8" fill="#2c3e50">0,2</text>
+    
+    <rect x="140" y="145" width="30" height="20" rx="2" fill="#ebf5fb" stroke="#2980b9" stroke-width="1"/>
+    <rect x="175" y="145" width="30" height="20" rx="2" fill="#ebf5fb" stroke="#2980b9" stroke-width="1"/>
+    <rect x="210" y="145" width="30" height="20" rx="2" fill="#ebf5fb" stroke="#2980b9" stroke-width="1"/>
+    <text x="155" y="159" font-size="8" fill="#2c3e50">1,0</text>
+    <text x="190" y="159" font-size="8" fill="#2c3e50">1,1</text>
+    <text x="225" y="159" font-size="8" fill="#2c3e50">1,2</text>
+    
+    <!-- ... dots -->
+    <text x="260" y="135" font-size="12" fill="#2980b9">...</text>
+    <text x="260" y="160" font-size="12" fill="#2980b9">...</text>
+    
+    <!-- Last row -->
+    <rect x="140" y="170" width="30" height="20" rx="2" fill="#ebf5fb" stroke="#2980b9" stroke-width="1"/>
+    <rect x="175" y="170" width="30" height="20" rx="2" fill="#ebf5fb" stroke="#2980b9" stroke-width="1"/>
+    <rect x="210" y="170" width="30" height="20" rx="2" fill="#ebf5fb" stroke="#2980b9" stroke-width="1"/>
+    <text x="155" y="184" font-size="8" fill="#2c3e50">Nx-1,0</text>
+    <text x="190" y="184" font-size="8" fill="#2c3e50">Nx-1,1</text>
+    <text x="225" y="184" font-size="8" fill="#2c3e50">Nx-1,2</text>
+  </g>
+  
+  <!-- Arrow down -->
+  <line x1="350" y1="190" x2="350" y2="220" stroke="#e67e22" stroke-width="2.5"/>
+  <polygon points="344,215 356,215 350,223" fill="#e67e22"/>
+  
+  <!-- Access statement -->
+  <rect x="120" y="225" width="460" height="40" rx="4" ry="4" fill="#fdebd0" stroke="#e67e22" stroke-width="2"/>
+  <text x="350" y="245" text-anchor="middle" font-size="12" font-weight="bold" fill="#e67e22">All threads can read/write any element</text>
+  <text x="350" y="260" text-anchor="middle" font-size="10" fill="#2c3e50">con[i][j] accessible from any thread at any time</text>
+  
+  <!-- Arrow down -->
+  <line x1="350" y1="265" x2="350" y2="295" stroke="#2ecc71" stroke-width="2.5"/>
+  <polygon points="344,290 356,290 350,298" fill="#2ecc71"/>
+  
+  <!-- No halo needed -->
+  <rect x="120" y="300" width="460" height="50" rx="4" ry="4" fill="#d5f5e3" stroke="#27ae60" stroke-width="2"/>
+  <text x="350" y="320" text-anchor="middle" font-size="12" font-weight="bold" fill="#27ae60">No halo cells needed!</text>
+  <text x="350" y="340" text-anchor="middle" font-size="10" fill="#2c3e50">Unlike MPI, all data is local — no communication required</text>
+  
+  <!-- Thread visualization -->
+  <rect x="80" y="365" width="540" height="25" rx="4" ry="4" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1"/>
+  <text x="350" y="382" text-anchor="middle" font-size="10" fill="#7f8c8d">Thread 0: Row 0..Nx/4  |  Thread 1: Row Nx/4..Nx/2  |  Thread 2: Row Nx/2..3Nx/4  |  Thread N: Row 3Nx/4..Nx</text>
+</svg>

@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 520" font-family="monospace">
+  <!-- Main outer box -->
+  <rect x="10" y="10" width="680" height="490" rx="6" ry="6" fill="none" stroke="#2c3e50" stroke-width="2.5"/>
+  
+  <!-- Title inside outer box -->
+  <text x="350" y="42" text-anchor="middle" font-size="18" font-weight="bold" fill="#2c3e50">MPI_COMM_WORLD</text>
+  
+  <!-- Rank boxes row -->
+  <!-- Rank 0 -->
+  <rect x="60" y="80" width="110" height="60" rx="4" ry="4" fill="#3498db" stroke="#2980b9" stroke-width="2"/>
+  <text x="115" y="106" text-anchor="middle" font-size="14" font-weight="bold" fill="white">Rank 0</text>
+  <text x="115" y="126" text-anchor="middle" font-size="13" fill="#eaf2f8">Main</text>
+  
+  <!-- Rank 1 -->
+  <rect x="220" y="80" width="110" height="60" rx="4" ry="4" fill="#2ecc71" stroke="#27ae60" stroke-width="2"/>
+  <text x="275" y="106" text-anchor="middle" font-size="14" font-weight="bold" fill="white">Rank 1</text>
+  <text x="275" y="126" text-anchor="middle" font-size="13" fill="#eafaf1">child</text>
+  
+  <!-- Rank 2 -->
+  <rect x="380" y="80" width="110" height="60" rx="4" ry="4" fill="#2ecc71" stroke="#27ae60" stroke-width="2"/>
+  <text x="435" y="106" text-anchor="middle" font-size="14" font-weight="bold" fill="white">Rank 2</text>
+  <text x="435" y="126" text-anchor="middle" font-size="13" fill="#eafaf1">child</text>
+  
+  <!-- Rank 3 -->
+  <rect x="540" y="80" width="110" height="60" rx="4" ry="4" fill="#2ecc71" stroke="#27ae60" stroke-width="2"/>
+  <text x="595" y="106" text-anchor="middle" font-size="14" font-weight="bold" fill="white">Rank 3</text>
+  <text x="595" y="126" text-anchor="middle" font-size="13" fill="#eafaf1">child</text>
+  
+  <!-- Bidirectional arrows between ranks -->
+  <line x1="170" y1="110" x2="218" y2="110" stroke="#e67e22" stroke-width="2.5"/>
+  <polygon points="174,105 182,110 174,115" fill="#e67e22"/>
+  <polygon points="214,105 206,110 214,115" fill="#e67e22"/>
+  
+  <line x1="330" y1="110" x2="378" y2="110" stroke="#e67e22" stroke-width="2.5"/>
+  <polygon points="334,105 342,110 334,115" fill="#e67e22"/>
+  <polygon points="374,105 366,110 374,115" fill="#e67e22"/>
+  
+  <line x1="490" y1="110" x2="538" y2="110" stroke="#e67e22" stroke-width="2.5"/>
+  <polygon points="494,105 502,110 494,115" fill="#e67e22"/>
+  <polygon points="534,105 526,110 534,115" fill="#e67e22"/>
+  
+  <!-- Vertical arrows from each rank down to shared filesystem -->
+  <!-- Rank 0 arrow -->
+  <line x1="115" y1="140" x2="115" y2="280" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrowDown)"/>
+  <!-- Rank 1 arrow -->
+  <line x1="275" y1="140" x2="275" y2="280" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrowDown)"/>
+  <!-- Rank 2 arrow -->
+  <line x1="435" y1="140" x2="435" y2="280" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrowDown)"/>
+  <!-- Rank 3 arrow -->
+  <line x1="595" y1="140" x2="595" y2="280" stroke="#7f8c8d" stroke-width="2" marker-end="url(#arrowDown)"/>
+  
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowDown" markerWidth="10" markerHeight="10" refX="5" refY="10" orient="auto">
+      <path d="M0,0 L5,10 L10,0" fill="#7f8c8d"/>
+    </marker>
+  </defs>
+  
+  <!-- Shared Filesystem box -->
+  <rect x="60" y="290" width="580" height="70" rx="4" ry="4" fill="#f39c12" stroke="#e67e22" stroke-width="2.5"/>
+  <text x="350" y="322" text-anchor="middle" font-size="16" font-weight="bold" fill="white">Shared Filesystem (ch.dat)</text>
+  <text x="350" y="346" text-anchor="middle" font-size="12" fill="#fef9e7">All ranks read/write to the same file</text>
+  
+  <!-- Small file icon inside shared filesystem -->
+  <rect x="280" y="300" width="20" height="24" rx="2" fill="white" stroke="#b7950b" stroke-width="1"/>
+  <line x1="284" y1="306" x2="296" y2="306" stroke="#b7950b" stroke-width="1.5"/>
+  <line x1="284" y1="312" x2="294" y2="312" stroke="#b7950b" stroke-width="1.5"/>
+  <line x1="284" y1="318" x2="290" y2="318" stroke="#b7950b" stroke-width="1.5"/>
+  
+  <!-- Label for MPI_COMM_WORLD -->
+  <text x="350" y="475" text-anchor="middle" font-size="13" fill="#7f8c8d">MPI_COMM_WORLD communicator with 4 ranks</text>
+</svg>

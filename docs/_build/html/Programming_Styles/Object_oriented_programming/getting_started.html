@@ -1,0 +1,217 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Object-Oriented Phase-Field Modeling in Fortran &mdash; Computing Nexus docs 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Tutorials" href="../../Tutorials/index.html" />
+    <link rel="prev" title="Object-Oriented Programming" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Computing Nexus docs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../HPC/index.html">High Performance Computing</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Programming Styles</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Object-Oriented Programming</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Object-Oriented Phase-Field Modeling in Fortran</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#why-object-oriented-design">Why Object-Oriented Design?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#what-you-will-learn">What You Will Learn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#phase-field-method-implementation">Phase-Field Method Implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#practical-development-resources">Practical Development Resources</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#who-is-this-documentation-for">Who Is This Documentation For?</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#project-philosophy">Project Philosophy</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Pitfalls/index.html">Common Programming Pitfalls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Articles/index.html">Articles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Machine_Learning/index.html">Machine Learning</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Computing Nexus docs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Programming Styles</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Object-Oriented Programming</a></li>
+      <li class="breadcrumb-item active">Object-Oriented Phase-Field Modeling in Fortran</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/Programming_Styles/Object_oriented_programming/getting_started.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <style>H1{color:Black;}</style>
+<style>H2{color:DarkOrange;}</style>
+<style>p{color:Black;}</style>
+<section class="tex2jax_ignore mathjax_ignore" id="object-oriented-phase-field-modeling-in-fortran">
+<h1>Object-Oriented Phase-Field Modeling in Fortran<a class="headerlink" href="#object-oriented-phase-field-modeling-in-fortran" title="Link to this heading"></a></h1>
+<p>This section presents a comprehensive guide to implementing the Phase-Field Method using Object-Oriented Programming (OOP) principles in modern Fortran. The goal of this project is to integrate modern software engineering practices with high-performance computational materials science, creating a framework that is modular, scalable, and designed for advanced scientific simulations.</p>
+<p>Unlike traditional procedural Fortran implementations, this approach leverages object-oriented design to build a flexible code architecture capable of simulating complex physical phenomena such as:</p>
+<ul class="simple">
+<li><p>Microstructure Evolution</p></li>
+<li><p>Fracture Mechanics</p></li>
+<li><p>Phase Transformations</p></li>
+<li><p>Multiphysics Coupling</p></li>
+<li><p>Large-scale High-Performance Computing (HPC) simulations</p></li>
+</ul>
+<section id="why-object-oriented-design">
+<h2>Why Object-Oriented Design?<a class="headerlink" href="#why-object-oriented-design" title="Link to this heading"></a></h2>
+<p>Modern scientific software requires more than numerical accuracy — it demands maintainability, extensibility, and efficient code organization.</p>
+<p>By adopting OOP principles in Fortran, this framework provides:</p>
+<ul class="simple">
+<li><p><strong>Modular Architecture</strong> → Separate physics, solvers, and numerical methods into reusable components</p></li>
+<li><p><strong>Code Reusability</strong> → Easily extend existing models without rewriting the core solver</p></li>
+<li><p><strong>Scalability</strong> → Build simulation frameworks suitable for HPC environments</p></li>
+<li><p><strong>Maintainability</strong> → Cleaner, structured code that is easier to debug and expand</p></li>
+<li><p><strong>Flexibility</strong> → Introduce new material models, thermodynamic potentials, and governing equations with minimal modifications</p></li>
+</ul>
+</section>
+<section id="what-you-will-learn">
+<h2>What You Will Learn<a class="headerlink" href="#what-you-will-learn" title="Link to this heading"></a></h2>
+<p>This documentation combines theoretical concepts with practical implementation details, allowing you to understand both the mathematical foundation and software design strategy behind the code.</p>
+<p>Topics covered include:</p>
+<ul class="simple">
+<li><p>Core OOP Concepts in Fortran</p></li>
+<li><p>Derived Types and custom data structures</p></li>
+<li><p>Encapsulation of field variables and simulation parameters</p></li>
+<li><p>Type-Bound Procedures for object behavior</p></li>
+<li><p>Abstract Interfaces and polymorphism</p></li>
+<li><p>Inheritance for reusable solver architectures</p></li>
+<li><p>Dynamic memory management for large-scale simulations</p></li>
+</ul>
+</section>
+<section id="phase-field-method-implementation">
+<h2>Phase-Field Method Implementation<a class="headerlink" href="#phase-field-method-implementation" title="Link to this heading"></a></h2>
+<p>Learn how object-oriented design maps directly to phase-field formulations:</p>
+<ul class="simple">
+<li><p>Construction of phase-field variables and state objects</p></li>
+<li><p>Time integration and solver implementation</p></li>
+<li><p>Free-energy functional design</p></li>
+<li><p>Governing equation discretization</p></li>
+<li><p>Boundary condition management</p></li>
+<li><p>Coupled multiphysics implementations</p></li>
+</ul>
+</section>
+<section id="practical-development-resources">
+<h2>Practical Development Resources<a class="headerlink" href="#practical-development-resources" title="Link to this heading"></a></h2>
+<p>This guide includes fully documented implementation examples designed for researchers and developers.</p>
+<p>Available resources include:</p>
+<ul class="simple">
+<li><p>Complete source code examples</p></li>
+<li><p>Step-by-step implementation tutorials</p></li>
+<li><p>Detailed code walkthroughs</p></li>
+<li><p>Well-commented solver implementations</p></li>
+<li><p>Software design explanations connecting code structure with mathematical formulations</p></li>
+</ul>
+</section>
+<section id="who-is-this-documentation-for">
+<h2>Who Is This Documentation For?<a class="headerlink" href="#who-is-this-documentation-for" title="Link to this heading"></a></h2>
+<p>This material is intended for:</p>
+<p><strong>Researchers who want to:</strong></p>
+<ul class="simple">
+<li><p>Extend phase-field models with new physical formulations</p></li>
+<li><p>Implement advanced thermodynamic or kinetic models</p></li>
+<li><p>Develop scalable scientific computing applications</p></li>
+</ul>
+<p><strong>Developers who want to:</strong></p>
+<ul class="simple">
+<li><p>Learn modern object-oriented programming in Fortran</p></li>
+<li><p>Understand how advanced numerical solvers are structured in scientific software</p></li>
+<li><p>Build reusable and maintainable HPC simulation framework</p></li>
+</ul>
+</section>
+<section id="project-philosophy">
+<h2>Project Philosophy<a class="headerlink" href="#project-philosophy" title="Link to this heading"></a></h2>
+<p>The objective of this project is simple:</p>
+<div class="admonition-objective admonition">
+<p class="admonition-title">objective</p>
+<p>Combine the power of modern Object-Oriented Programming, scientific computing, and High-Performance Computing to create a flexible and extensible phase-field simulation framework for next-generation computational materials science.</p>
+</div>
+<p>This documentation serves as the central reference for understanding both the physics implementation and the software architecture behind the project.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Object-Oriented Programming" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../Tutorials/index.html" class="btn btn-neutral float-right" title="Tutorials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Shahid Maqbool.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

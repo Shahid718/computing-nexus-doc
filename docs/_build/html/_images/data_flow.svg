@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 620" font-family="monospace">
+  <!-- Background -->
+  <rect width="700" height="620" fill="#ffffff"/>
+  
+  <!-- Title -->
+  <text x="350" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#2c3e50">Data Flow in Time Stepping</text>
+  
+  <!-- Time Step t label -->
+  <text x="350" y="55" text-anchor="middle" font-size="14" font-weight="bold" fill="#2c3e50">Time Step t</text>
+  
+  <!-- Arrow from Time Step t -->
+  <line x1="350" y1="60" x2="350" y2="80" stroke="#2c3e50" stroke-width="2"/>
+  <polygon points="344,75 356,75 350,83" fill="#2c3e50"/>
+  
+  <!-- Main box -->
+  <rect x="40" y="85" width="620" height="440" rx="6" ry="6" fill="#f8f9fa" stroke="#2c3e50" stroke-width="2.5"/>
+  
+  <!-- Step 1 -->
+  <rect x="60" y="100" width="580" height="55" rx="4" ry="4" fill="#d6eaf8" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="80" y="120" font-size="13" font-weight="bold" fill="#2980b9">1. Exchange con halos</text>
+  <text x="80" y="138" font-size="11" fill="#2c3e50">└─► All processes get neighbor data</text>
+  <text x="560" y="120" font-size="11" fill="#2980b9">MPI_Sendrecv</text>
+  
+  <!-- Step 2 -->
+  <rect x="60" y="165" width="580" height="55" rx="4" ry="4" fill="#d5f5e3" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="80" y="185" font-size="13" font-weight="bold" fill="#27ae60">2. Compute chemical potential (dummy_con)</text>
+  <text x="80" y="203" font-size="11" fill="#2c3e50">└─► Uses con with halos</text>
+  
+  <!-- Step 3 -->
+  <rect x="60" y="230" width="580" height="55" rx="4" ry="4" fill="#fdebd0" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="80" y="250" font-size="13" font-weight="bold" fill="#e67e22">3. Exchange dummy_con halos</text>
+  <text x="80" y="268" font-size="11" fill="#2c3e50">└─► All processes get neighbor data</text>
+  <text x="560" y="250" font-size="11" fill="#e67e22">MPI_Sendrecv</text>
+  
+  <!-- Step 4 -->
+  <rect x="60" y="295" width="580" height="55" rx="4" ry="4" fill="#ebdef0" stroke="#8e44ad" stroke-width="1.5"/>
+  <text x="80" y="315" font-size="13" font-weight="bold" fill="#8e44ad">4. Compute Laplacian of dummy_con</text>
+  <text x="80" y="333" font-size="11" fill="#2c3e50">└─► Uses dummy_con with halos</text>
+  
+  <!-- Step 5 -->
+  <rect x="60" y="360" width="580" height="55" rx="4" ry="4" fill="#fadbd8" stroke="#e74c3c" stroke-width="1.5"/>
+  <text x="80" y="380" font-size="13" font-weight="bold" fill="#e74c3c">5. Update con_new</text>
+  <text x="80" y="398" font-size="11" fill="#2c3e50">└─► Euler time integration</text>
+  
+  <!-- Step 6 -->
+  <rect x="60" y="425" width="580" height="55" rx="4" ry="4" fill="#f9e79f" stroke="#f1c40f" stroke-width="1.5"/>
+  <text x="80" y="445" font-size="13" font-weight="bold" fill="#7d6608">6. Swap con and con_new</text>
+  <text x="80" y="463" font-size="11" fill="#2c3e50">└─► Ready for next time step</text>
+  
+  <!-- Arrows between steps - FIXED with properly symmetric arrowheads -->
+  <!-- Arrow between Step 1 and Step 2 -->
+  <line x1="350" y1="155" x2="350" y2="163" stroke="#7f8c8d" stroke-width="2"/>
+  <polygon points="344,160 356,160 350,168" fill="#7f8c8d"/>
+  
+  <!-- Arrow between Step 2 and Step 3 -->
+  <line x1="350" y1="220" x2="350" y2="228" stroke="#7f8c8d" stroke-width="2"/>
+  <polygon points="344,225 356,225 350,233" fill="#7f8c8d"/>
+  
+  <!-- Arrow between Step 3 and Step 4 -->
+  <line x1="350" y1="285" x2="350" y2="293" stroke="#7f8c8d" stroke-width="2"/>
+  <polygon points="344,290 356,290 350,298" fill="#7f8c8d"/>
+  
+  <!-- Arrow between Step 4 and Step 5 -->
+  <line x1="350" y1="350" x2="350" y2="358" stroke="#7f8c8d" stroke-width="2"/>
+  <polygon points="344,355 356,355 350,363" fill="#7f8c8d"/>
+  
+  <!-- Arrow between Step 5 and Step 6 -->
+  <line x1="350" y1="415" x2="350" y2="423" stroke="#7f8c8d" stroke-width="2"/>
+  <polygon points="344,420 356,420 350,428" fill="#7f8c8d"/>
+  
+  <!-- Arrow from main box to Time Step t+1 -->
+  <line x1="350" y1="525" x2="350" y2="543" stroke="#2c3e50" stroke-width="2"/>
+  <polygon points="344,538 356,538 350,546" fill="#2c3e50"/>
+  
+  <!-- Time Step t+1 label -->
+  <text x="350" y="570" text-anchor="middle" font-size="14" font-weight="bold" fill="#2c3e50">Time Step t+1</text>
+  
+  <!-- Legend -->
+  <rect x="40" y="590" width="620" height="25" rx="4" ry="4" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1"/>
+  <text x="60" y="607" font-size="10" fill="#7f8c8d">MPI_Sendrecv: Simultaneous send and receive of halo data between neighboring processes</text>
+</svg>

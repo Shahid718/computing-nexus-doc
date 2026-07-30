@@ -1,0 +1,724 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenMP Finite Difference Phase Field Code - A Tutorial Guide &mdash; Computing Nexus docs 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="CUDA Finite Difference Phase Field Code - A Tutorial Guide" href="../cuda/index.html" />
+    <link rel="prev" title="MPI Finite Difference Phase Field Code - A Tutorial Guide" href="../mpi/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Computing Nexus docs
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">High Performance Computing</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#the-hpc-landscape">The HPC Landscape</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../index.html#hybrid-hpc-approach">Hybrid HPC Approach</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#hpc-system-architecture-overview">HPC System Architecture Overview</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../mpi/index.html">MPI Finite Difference Phase Field Code - A Tutorial Guide</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">OpenMP Finite Difference Phase Field Code - A Tutorial Guide</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#table-of-contents">Table of Contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#understanding-the-physics">Understanding the Physics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openmp-concepts-for-beginners">OpenMP Concepts for Beginners</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#step-by-step-code-walkthrough">Step-by-Step Code Walkthrough</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#visualization-of-parallel-execution">Visualization of Parallel Execution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#performance-optimization">Performance Optimization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-the-code">Running the Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#common-pitfalls-and-solutions">Common Pitfalls and Solutions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#advanced-topics">Advanced Topics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#appendix-quick-reference">Appendix: Quick Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../cuda/index.html">CUDA Finite Difference Phase Field Code - A Tutorial Guide</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Programming_Styles/index.html">Programming Styles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Pitfalls/index.html">Common Programming Pitfalls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Articles/index.html">Articles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Machine_Learning/index.html">Machine Learning</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Computing Nexus docs</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">High Performance Computing</a></li>
+      <li class="breadcrumb-item active">OpenMP Finite Difference Phase Field Code - A Tutorial Guide</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/HPC/openmp/index.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="openmp-finite-difference-phase-field-code-a-tutorial-guide">
+<h1>OpenMP Finite Difference Phase Field Code - A Tutorial Guide<a class="headerlink" href="#openmp-finite-difference-phase-field-code-a-tutorial-guide" title="Link to this heading"></a></h1>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#introduction"><span class="xref myst">Introduction</span></a></p></li>
+<li><p><a class="reference internal" href="#understanding-the-physics"><span class="xref myst">Understanding the Physics</span></a></p></li>
+<li><p><a class="reference internal" href="#openmp-concepts-for-beginners"><span class="xref myst">OpenMP Concepts for Beginners</span></a></p></li>
+<li><p><a class="reference internal" href="#step-by-step-code-walkthrough"><span class="xref myst">Step-by-Step Code Walkthrough</span></a></p></li>
+<li><p><a class="reference internal" href="#visualization-of-parallel-execution"><span class="xref myst">Visualization of Parallel Execution</span></a></p></li>
+<li><p><a class="reference internal" href="#performance-optimization"><span class="xref myst">Performance Optimization</span></a></p></li>
+<li><p><a class="reference internal" href="#running-the-code"><span class="xref myst">Running the Code</span></a></p></li>
+<li><p><a class="reference internal" href="#common-pitfalls-and-solutions"><span class="xref myst">Common Pitfalls and Solutions</span></a></p></li>
+<li><p><a class="reference internal" href="#advanced-topics"><span class="xref myst">Advanced Topics</span></a></p></li>
+<li><p><a class="reference internal" href="#appendix-quick-reference"><span class="xref myst">Appendix: Quick Reference</span></a></p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<p>This document provides a comprehensive tutorial on parallel computing using OpenMP (Open Multi-Processing) through a finite difference code that solves the Cahn-Hilliard equation—a fundamental model for phase separation in materials science. The code demonstrates how to take a serial computational problem and parallelize it across multiple CPU cores within a single compute node.</p>
+<section id="what-you-will-learn">
+<h3>What You Will Learn<a class="headerlink" href="#what-you-will-learn" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>How to use OpenMP directives for parallel programming</p></li>
+<li><p>Shared memory programming concepts</p></li>
+<li><p>Loop parallelization strategies</p></li>
+<li><p>Data management with shared arrays</p></li>
+<li><p>Performance optimization techniques for multi-core systems</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="understanding-the-physics">
+<h2>Understanding the Physics<a class="headerlink" href="#understanding-the-physics" title="Link to this heading"></a></h2>
+<p>The Cahn-Hilliard equation describes phase separation in binary alloys:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial c}{\partial t} = \nabla \cdot \left[M \nabla \left(\frac{\delta F}{\delta c}\right)\right]\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><strong><span class="math notranslate nohighlight">\(c\)</span></strong>: Concentration field</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(M\)</span></strong>: Mobility</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(F\)</span></strong>: Free energy functional</p></li>
+</ul>
+<p>The code uses a 5-point finite difference stencil to discretize this equation spatially:</p>
+<div class="math notranslate nohighlight">
+\[\nabla^2 c = \frac{c[i+1,j] + c[i-1,j] + c[i,j+1] + c[i,j-1] - 4c[i,j]}{\Delta x \cdot \Delta y}\]</div>
+<section id="why-parallelize-with-openmp">
+<h3>Why Parallelize with OpenMP?<a class="headerlink" href="#why-parallelize-with-openmp" title="Link to this heading"></a></h3>
+<p>The 2D domain is <span class="math notranslate nohighlight">\(2000 \times 2000\)</span> grid points. For realistic simulations:</p>
+<ul class="simple">
+<li><p><strong>Serial:</strong> 4 million points <span class="math notranslate nohighlight">\(\times\)</span> 1000 time steps = <strong>too slow</strong> for real-time exploration</p></li>
+<li><p><strong>OpenMP Parallel:</strong> Domain divided among threads, each handling <span class="math notranslate nohighlight">\(\sim 1/N\)</span> of the work using shared memory</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="openmp-concepts-for-beginners">
+<h2>OpenMP Concepts for Beginners<a class="headerlink" href="#openmp-concepts-for-beginners" title="Link to this heading"></a></h2>
+<section id="what-is-openmp">
+<h3>What is OpenMP?<a class="headerlink" href="#what-is-openmp" title="Link to this heading"></a></h3>
+<p>OpenMP is a shared-memory parallel programming API that allows developers to write multi-threaded applications using simple compiler directives. Think of it as a way for multiple CPU cores within a single computer to work together on the same problem.</p>
+</section>
+<section id="key-concepts">
+<h3>Key Concepts<a class="headerlink" href="#key-concepts" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Concept</p></th>
+<th class="head text-left"><p>Analogy</p></th>
+<th class="head text-left"><p>In Our Code</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>Thread</strong></p></td>
+<td class="text-left"><p>Individual worker</p></td>
+<td class="text-left"><p>CPU core executing a portion of the loop</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Parallel Region</strong></p></td>
+<td class="text-left"><p>Team of workers</p></td>
+<td class="text-left"><p>Code block executed by multiple threads</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Worksharing</strong></p></td>
+<td class="text-left"><p>Dividing tasks</p></td>
+<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">omp</span> <span class="pre">parallel</span> <span class="pre">for</span></code> distributes loop iterations</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Shared Memory</strong></p></td>
+<td class="text-left"><p>Common workspace</p></td>
+<td class="text-left"><p>All threads access the same arrays (<code class="docutils literal notranslate"><span class="pre">con</span></code>, <code class="docutils literal notranslate"><span class="pre">dfdcon</span></code>, etc.)</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Private Variable</strong></p></td>
+<td class="text-left"><p>Personal notebook</p></td>
+<td class="text-left"><p>Variables like <code class="docutils literal notranslate"><span class="pre">ip</span></code>, <code class="docutils literal notranslate"><span class="pre">im</span></code>, <code class="docutils literal notranslate"><span class="pre">jp</span></code>, <code class="docutils literal notranslate"><span class="pre">jm</span></code> are thread-private</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="thread-execution-model">
+<h3>Thread Execution Model<a class="headerlink" href="#thread-execution-model" title="Link to this heading"></a></h3>
+<!-- In HTML -->
+<img alt="OpenMP Diagram" src="../../_images/openmp_execution_model.svg" />
+</section>
+</section>
+<section id="step-by-step-code-walkthrough">
+<h2>Step-by-Step Code Walkthrough<a class="headerlink" href="#step-by-step-code-walkthrough" title="Link to this heading"></a></h2>
+<section id="step-1-include-openmp-headers">
+<h3>Step 1: Include OpenMP Headers<a class="headerlink" href="#step-1-include-openmp-headers" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;omp.h&gt;</span>
+</pre></div>
+</div>
+<section id="what-happens-here">
+<h4>What happens here?<a class="headerlink" href="#what-happens-here" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>OpenMP provides compiler directives and runtime functions.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">omp.h</span></code> header declares the OpenMP API functions.</p></li>
+<li><p>Without this header, <code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">omp</span></code> directives still work, but runtime functions won’t.</p></li>
+</ul>
+</section>
+</section>
+<section id="step-2-set-domain-parameters">
+<h3>Step 2: Set Domain Parameters<a class="headerlink" href="#step-2-set-domain-parameters" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">constexpr</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">Nx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2000</span><span class="p">;</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">Ny</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2000</span><span class="p">;</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">nsteps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span>
+</pre></div>
+</div>
+<section id="why-these-sizes">
+<h4>Why these sizes?<a class="headerlink" href="#why-these-sizes" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>2000×2000</strong> = 4 million grid points.</p></li>
+<li><p>Each thread works on a portion of this domain.</p></li>
+<li><p>With 8 threads, each handles ~500×2000 = 1 million points.</p></li>
+</ul>
+</section>
+</section>
+<section id="step-3-allocate-arrays">
+<h3>Step 3: Allocate Arrays<a class="headerlink" href="#step-3-allocate-arrays" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">Matrix</span><span class="w"> </span><span class="nf">con</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">));</span>
+<span class="n">Matrix</span><span class="w"> </span><span class="nf">con_new</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">));</span>
+<span class="n">Matrix</span><span class="w"> </span><span class="nf">dfdcon</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">));</span>
+<span class="n">Matrix</span><span class="w"> </span><span class="nf">lap_con</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">));</span>
+<span class="n">Matrix</span><span class="w"> </span><span class="nf">dummy_con</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">));</span>
+<span class="n">Matrix</span><span class="w"> </span><span class="nf">lap_dummy</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="n">Ny</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">));</span>
+</pre></div>
+</div>
+<section id="memory-layout">
+<h4>Memory Layout:<a class="headerlink" href="#memory-layout" title="Link to this heading"></a></h4>
+<!-- In HTML -->
+<img alt="Memory layout" src="../../_images/openmp_execution_model.svg" />
+</section>
+</section>
+<section id="step-4-initialize-microstructure">
+<h3>Step 4: Initialize Microstructure<a class="headerlink" href="#step-4-initialize-microstructure" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">mt19937</span><span class="w"> </span><span class="nf">rng</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">random_device</span><span class="p">{}());</span>
+<span class="n">std</span><span class="o">::</span><span class="n">uniform_real_distribution</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">dist</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">);</span>
+
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Nx</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Ny</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dist</span><span class="p">(</span><span class="n">rng</span><span class="p">);</span>
+<span class="w">        </span><span class="n">con</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">con_0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">noise</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mf">0.5</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">r</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<section id="important-points">
+<h4>Important Points:<a class="headerlink" href="#important-points" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>No parallelization needed here (small overhead).</p></li>
+<li><p>All threads share the same <code class="docutils literal notranslate"><span class="pre">con</span></code> array.</p></li>
+<li><p>Initialization is done serially for simplicity.</p></li>
+</ul>
+</section>
+</section>
+<section id="step-5-parallel-computation-loop">
+<h3>Step 5: Parallel Computation Loop<a class="headerlink" href="#step-5-parallel-computation-loop" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma omp parallel for collapse(2) \</span>
+<span class="cp">shared(con, dfdcon, lap_con, dummy_con) \</span>
+<span class="cp">private(ip, im, jp, jm)</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Nx</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Ny</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Compute dfdcon, lap_con, dummy_con</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<section id="key-directives-explained">
+<h4>Key Directives Explained:<a class="headerlink" href="#key-directives-explained" title="Link to this heading"></a></h4>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Directive</p></th>
+<th class="head text-left"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">omp</span> <span class="pre">parallel</span> <span class="pre">for</span></code></p></td>
+<td class="text-left"><p>Parallelize the following loop</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">collapse(2)</span></code></p></td>
+<td class="text-left"><p>Collapse nested loops into a single parallel loop</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">shared(...)</span></code></p></td>
+<td class="text-left"><p>Variables accessible by all threads</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">private(...)</span></code></p></td>
+<td class="text-left"><p>Each thread gets its own copy</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="step-6-compute-free-energy-derivative">
+<h3>Step 6: Compute Free Energy Derivative<a class="headerlink" href="#step-6-compute-free-energy-derivative" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">dfdcon</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mf">2.0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">con</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">con</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">con</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span><span class="w"> </span><span class="o">-</span><span class="w"> </span>
+<span class="w">             </span><span class="mf">2.0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">con</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">con</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">con</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]));</span>
+</pre></div>
+</div>
+<section id="why-no-communication-needed">
+<h4>Why no communication needed?<a class="headerlink" href="#why-no-communication-needed" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>All data is in shared memory.</p></li>
+<li><p>No halo cells required.</p></li>
+<li><p>Threads work independently on different parts of the array.</p></li>
+</ul>
+</section>
+</section>
+<section id="step-7-compute-laplacian">
+<h3>Step 7: Compute Laplacian<a class="headerlink" href="#step-7-compute-laplacian" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">jp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">jm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">ip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">im</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">im</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="n">im</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nx</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ip</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Nx</span><span class="p">)</span><span class="w"> </span><span class="n">ip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">jm</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="n">jm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ny</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">jp</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Ny</span><span class="p">)</span><span class="w"> </span><span class="n">jp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="n">lap_con</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">con</span><span class="p">[</span><span class="n">ip</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">con</span><span class="p">[</span><span class="n">im</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">con</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">jm</span><span class="p">]</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                 </span><span class="n">con</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">jp</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">4.0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">con</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">])</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">dx</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dx</span><span class="p">);</span>
+</pre></div>
+</div>
+<section id="why-periodic-boundaries-work">
+<h4>Why periodic boundaries work:<a class="headerlink" href="#why-periodic-boundaries-work" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">im</span></code> and <code class="docutils literal notranslate"><span class="pre">ip</span></code> wrap around using modulo logic.</p></li>
+<li><p>No communication overhead for boundary conditions.</p></li>
+<li><p>Simple indexing with if statements.</p></li>
+</ul>
+</section>
+</section>
+<section id="step-8-time-integration">
+<h3>Step 8: Time Integration<a class="headerlink" href="#step-8-time-integration" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">con_new</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">con</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">mobility</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lap_dummy</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">];</span>
+<span class="n">con_new</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">clamp</span><span class="p">(</span><span class="n">con_new</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span><span class="w"> </span><span class="mf">0.00001</span><span class="p">,</span><span class="w"> </span><span class="mf">0.99999</span><span class="p">);</span>
+</pre></div>
+</div>
+<section id="euler-integration">
+<h4>Euler Integration:<a class="headerlink" href="#euler-integration" title="Link to this heading"></a></h4>
+<!-- In HTML -->
+<img alt="Memory layout" src="../../_images/euler_integration.svg" />
+</section>
+</section>
+<section id="step-9-data-swap">
+<h3>Step 9: Data Swap<a class="headerlink" href="#step-9-data-swap" title="Link to this heading"></a></h3>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">swap</span><span class="p">(</span><span class="n">con</span><span class="p">,</span><span class="w"> </span><span class="n">con_new</span><span class="p">);</span>
+</pre></div>
+</div>
+<section id="why-this-works">
+<h4>Why this works:<a class="headerlink" href="#why-this-works" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">con</span></code> becomes the new state.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">con_new</span></code> holds the old state (to be overwritten next iteration).</p></li>
+<li><p>No copying overhead - just pointer swap.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="visualization-of-parallel-execution">
+<h2>Visualization of Parallel Execution<a class="headerlink" href="#visualization-of-parallel-execution" title="Link to this heading"></a></h2>
+<section id="time-stepping-flow">
+<h3>Time Stepping Flow:<a class="headerlink" href="#time-stepping-flow" title="Link to this heading"></a></h3>
+<!-- In HTML -->
+<img alt="OpenMP Diagram" src="../../_images/time_stepping.svg" />
+</section>
+</section>
+<hr class="docutils" />
+<section id="performance-optimization">
+<h2>Performance Optimization<a class="headerlink" href="#performance-optimization" title="Link to this heading"></a></h2>
+<section id="loop-collapse">
+<h3>Loop Collapse<a class="headerlink" href="#loop-collapse" title="Link to this heading"></a></h3>
+<section id="without-collapse-2">
+<h4>Without <code class="docutils literal notranslate"><span class="pre">collapse(2)</span></code>:<a class="headerlink" href="#without-collapse-2" title="Link to this heading"></a></h4>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma omp parallel for</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Nx</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Ny</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Only outer loop is parallelized</span>
+<span class="w">        </span><span class="c1">// Each thread gets a range of i values</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="with-collapse-2">
+<h4>With <code class="docutils literal notranslate"><span class="pre">collapse(2)</span></code>:<a class="headerlink" href="#with-collapse-2" title="Link to this heading"></a></h4>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma omp parallel for collapse(2)</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Nx</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Ny</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Both loops are collapsed into one</span>
+<span class="w">        </span><span class="c1">// Better load balancing for small Nx</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="when-to-use-collapse">
+<h4>When to use <code class="docutils literal notranslate"><span class="pre">collapse</span></code>:<a class="headerlink" href="#when-to-use-collapse" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>Use it when</strong>: Nx is small or uneven.</p></li>
+<li><p><strong>Avoid it when</strong>: Nx is large and Ny is small (overhead).</p></li>
+<li><p><strong>Rule of thumb</strong>: Use for 2D/3D stencils with balanced dimensions.</p></li>
+</ul>
+</section>
+</section>
+<section id="scheduling-strategies">
+<h3>Scheduling Strategies<a class="headerlink" href="#scheduling-strategies" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Schedule</p></th>
+<th class="head text-left"><p>Behavior</p></th>
+<th class="head text-left"><p>Best For</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong><code class="docutils literal notranslate"><span class="pre">static</span></code></strong></p></td>
+<td class="text-left"><p>Fixed chunk sizes</p></td>
+<td class="text-left"><p>Regular workloads</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong><code class="docutils literal notranslate"><span class="pre">dynamic</span></code></strong></p></td>
+<td class="text-left"><p>Runtime assignment</p></td>
+<td class="text-left"><p>Irregular workloads</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong><code class="docutils literal notranslate"><span class="pre">guided</span></code></strong></p></td>
+<td class="text-left"><p>Decreasing chunk sizes</p></td>
+<td class="text-left"><p>Balanced workload</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong><code class="docutils literal notranslate"><span class="pre">auto</span></code></strong></p></td>
+<td class="text-left"><p>Compiler decides</p></td>
+<td class="text-left"><p>General use</p></td>
+</tr>
+</tbody>
+</table>
+<section id="example">
+<h4>Example:<a class="headerlink" href="#example" title="Link to this heading"></a></h4>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma omp parallel for schedule(dynamic, 32)</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Nx</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Dynamic scheduling with chunk size 32</span>
+<span class="w">    </span><span class="c1">// Threads grab chunks of 32 iterations</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="cache-optimization">
+<h3>Cache Optimization<a class="headerlink" href="#cache-optimization" title="Link to this heading"></a></h3>
+<section id="memory-access-patterns">
+<h4>Memory Access Patterns:<a class="headerlink" href="#memory-access-patterns" title="Link to this heading"></a></h4>
+<p><strong>Good (Column-major):</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Ny</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Nx</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Access con[i][j]</span>
+<span class="w">        </span><span class="c1">// Better cache locality</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Bad (Row-major - Our Code):</strong></p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Nx</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Ny</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Access con[i][j]</span>
+<span class="w">        </span><span class="c1">// Strided access pattern</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="why-our-code-works">
+<h4>Why our code works:<a class="headerlink" href="#why-our-code-works" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>C++ uses row-major layout by default.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">vector&lt;vector&lt;double&gt;&gt;</span></code> approach stores rows contiguously.</p></li>
+<li><p>Each thread works on a contiguous block of rows.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="running-the-code">
+<h2>Running the Code<a class="headerlink" href="#running-the-code" title="Link to this heading"></a></h2>
+<section id="compilation">
+<h3>Compilation<a class="headerlink" href="#compilation" title="Link to this heading"></a></h3>
+<p>Using GCC with OpenMP support:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>g++<span class="w"> </span>-std<span class="o">=</span>c++17<span class="w"> </span>-O3<span class="w"> </span>-fopenmp<span class="w"> </span>-o<span class="w"> </span>cahn_hilliard<span class="w"> </span>main.cpp
+</pre></div>
+</div>
+</section>
+<section id="running">
+<h3>Running<a class="headerlink" href="#running" title="Link to this heading"></a></h3>
+<p><strong>Basic Run (8 threads):</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">OMP_NUM_THREADS</span><span class="o">=</span><span class="m">8</span>
+./cahn_hilliard
+</pre></div>
+</div>
+</section>
+<section id="performance-monitoring">
+<h3>Performance Monitoring<a class="headerlink" href="#performance-monitoring" title="Link to this heading"></a></h3>
+<section id="using-linux-tools">
+<h4>Using Linux tools:<a class="headerlink" href="#using-linux-tools" title="Link to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Monitor CPU usage</span>
+htop
+
+<span class="c1"># Monitor thread activity</span>
+perf<span class="w"> </span>stat<span class="w"> </span>./cahn_hilliard
+
+<span class="c1"># Monitor cache misses</span>
+perf<span class="w"> </span>stat<span class="w"> </span>-e<span class="w"> </span>cache-misses,cache-references<span class="w"> </span>./cahn_hilliard
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="common-pitfalls-and-solutions">
+<h2>Common Pitfalls and Solutions<a class="headerlink" href="#common-pitfalls-and-solutions" title="Link to this heading"></a></h2>
+<section id="insufficient-parallelism">
+<h3>1. Insufficient Parallelism<a class="headerlink" href="#insufficient-parallelism" title="Link to this heading"></a></h3>
+<p><strong>Problem:</strong> Loop has too few iterations for many threads.</p>
+<p><strong>Solution:</strong> Use <code class="docutils literal notranslate"><span class="pre">collapse</span></code> or adjust chunk size:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma omp parallel for collapse(2) schedule(dynamic)</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Nx</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Ny</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// More iterations = better parallelization</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="memory-bottlenecks">
+<h3>2. Memory Bottlenecks<a class="headerlink" href="#memory-bottlenecks" title="Link to this heading"></a></h3>
+<p><strong>Problem:</strong> All threads accessing the same memory at the same time.</p>
+<p><strong>Solution:</strong> Use thread-local variables:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma omp parallel for private(local_array)</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Nx</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">local_array</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span><span class="w">  </span><span class="c1">// Each thread gets its own copy</span>
+<span class="w">    </span><span class="c1">// Compute using local_array</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="advanced-topics">
+<h2>Advanced Topics<a class="headerlink" href="#advanced-topics" title="Link to this heading"></a></h2>
+<section id="simd-vectorization">
+<h3>SIMD Vectorization<a class="headerlink" href="#simd-vectorization" title="Link to this heading"></a></h3>
+<p>OpenMP 4.0+ supports SIMD directives:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma omp simd</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Nx</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Compiler will vectorize this loop</span>
+<span class="w">    </span><span class="n">con_new</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">con</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">dt</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">lap_dummy</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="gpu-offloading-with-openmp">
+<h3>GPU Offloading with OpenMP<a class="headerlink" href="#gpu-offloading-with-openmp" title="Link to this heading"></a></h3>
+<p>OpenMP 4.5+ supports GPU offloading:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#pragma omp target teams distribute parallel for</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">Nx</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Code runs on GPU</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="appendix-quick-reference">
+<h2>Appendix: Quick Reference<a class="headerlink" href="#appendix-quick-reference" title="Link to this heading"></a></h2>
+<section id="openmp-directives">
+<h3>OpenMP Directives<a class="headerlink" href="#openmp-directives" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Directive</p></th>
+<th class="head text-left"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">omp</span> <span class="pre">parallel</span></code></p></td>
+<td class="text-left"><p>Create parallel region</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">omp</span> <span class="pre">for</span></code></p></td>
+<td class="text-left"><p>Distribute loop iterations</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">omp</span> <span class="pre">parallel</span> <span class="pre">for</span></code></p></td>
+<td class="text-left"><p>Combined parallel + for</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">omp</span> <span class="pre">sections</span></code></p></td>
+<td class="text-left"><p>Distribute independent tasks</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">omp</span> <span class="pre">single</span></code></p></td>
+<td class="text-left"><p>Execute code by one thread</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">omp</span> <span class="pre">master</span></code></p></td>
+<td class="text-left"><p>Execute code by master thread</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">omp</span> <span class="pre">critical</span></code></p></td>
+<td class="text-left"><p>Ensure exclusive access</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">omp</span> <span class="pre">barrier</span></code></p></td>
+<td class="text-left"><p>Synchronize all threads</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">#pragma</span> <span class="pre">omp</span> <span class="pre">task</span></code></p></td>
+<td class="text-left"><p>Create a task</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="openmp-clauses">
+<h3>OpenMP Clauses<a class="headerlink" href="#openmp-clauses" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Clause</p></th>
+<th class="head text-left"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">private(list)</span></code></p></td>
+<td class="text-left"><p>Thread-private variables</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">shared(list)</span></code></p></td>
+<td class="text-left"><p>Shared variables</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">firstprivate(list)</span></code></p></td>
+<td class="text-left"><p>Private with initial value</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">lastprivate(list)</span></code></p></td>
+<td class="text-left"><p>Private with final value</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">reduction(op:list)</span></code></p></td>
+<td class="text-left"><p>Reduction operation</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">schedule(type,chunk)</span></code></p></td>
+<td class="text-left"><p>Scheduling policy</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">collapse(n)</span></code></p></td>
+<td class="text-left"><p>Collapse nested loops</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">nowait</span></code></p></td>
+<td class="text-left"><p>Don’t wait for other threads</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">if(condition)</span></code></p></td>
+<td class="text-left"><p>Conditional parallelization</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="environment-variables">
+<h3>Environment Variables<a class="headerlink" href="#environment-variables" title="Link to this heading"></a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Variable</p></th>
+<th class="head text-left"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">OMP_NUM_THREADS</span></code></p></td>
+<td class="text-left"><p>Number of threads</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">OMP_STACKSIZE</span></code></p></td>
+<td class="text-left"><p>Thread stack size</p></td>
+</tr>
+</tbody>
+</table>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../mpi/index.html" class="btn btn-neutral float-left" title="MPI Finite Difference Phase Field Code - A Tutorial Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../cuda/index.html" class="btn btn-neutral float-right" title="CUDA Finite Difference Phase Field Code - A Tutorial Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Shahid Maqbool.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

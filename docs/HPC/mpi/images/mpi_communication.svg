@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 480" font-family="monospace">
+  <!-- Background -->
+  <rect width="850" height="480" fill="#ffffff"/>
+  
+  <!-- Title -->
+  <text x="425" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#2c3e50">MPI_Sendrecv Execution</text>
+  
+  <!-- Time axis -->
+  <line x1="50" y1="440" x2="800" y2="440" stroke="#2c3e50" stroke-width="2"/>
+  <text x="810" y="435" font-size="14" font-weight="bold" fill="#2c3e50">Time</text>
+  <polygon points="798,435 808,440 798,445" fill="#2c3e50"/>
+  
+  <!-- Process i (Left) box -->
+  <rect x="50" y="60" width="320" height="340" rx="6" ry="6" fill="#d6eaf8" stroke="#2980b9" stroke-width="2.5"/>
+  <rect x="50" y="60" width="320" height="35" rx="6" ry="6" fill="#3498db" stroke="#2980b9" stroke-width="2.5"/>
+  <text x="210" y="83" text-anchor="middle" font-size="14" font-weight="bold" fill="white">Process i (Left)</text>
+  
+  <!-- Process i (Right) box -->
+  <rect x="480" y="60" width="320" height="340" rx="6" ry="6" fill="#d5f5e3" stroke="#27ae60" stroke-width="2.5"/>
+  <rect x="480" y="60" width="320" height="35" rx="6" ry="6" fill="#2ecc71" stroke="#27ae60" stroke-width="2.5"/>
+  <text x="640" y="83" text-anchor="middle" font-size="14" font-weight="bold" fill="white">Process i (Right)</text>
+  
+  <!-- Step 1: Send con[1] from Left to Right -->
+  <rect x="90" y="115" width="240" height="40" rx="3" fill="#ebf5fb" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="210" y="140" text-anchor="middle" font-size="12" fill="#2c3e50">Tag 0: Send con[1]</text>
+  
+  <!-- Arrow from Left to Right for Send -->
+  <line x1="330" y1="135" x2="478" y2="135" stroke="#e74c3c" stroke-width="2.5"/>
+  <polygon points="473,130 483,135 473,140" fill="#e74c3c"/>
+  
+  <rect x="520" y="115" width="240" height="40" rx="3" fill="#eafaf1" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="640" y="140" text-anchor="middle" font-size="12" fill="#2c3e50">Tag 0: Recv con[local_Nx+1]</text>
+  
+  <!-- Step 2: Recv con[local_Nx+1] from Right to Left -->
+  <!-- Arrow from Right to Left for Recv -->
+  <line x1="478" y1="195" x2="330" y2="195" stroke="#3498db" stroke-width="2.5"/>
+  <polygon points="335,190 325,195 335,200" fill="#3498db"/>
+  
+  <rect x="520" y="175" width="240" height="40" rx="3" fill="#eafaf1" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="640" y="200" text-anchor="middle" font-size="12" fill="#2c3e50">Tag 1: Send con[local_Nx]</text>
+  
+  <rect x="90" y="175" width="240" height="40" rx="3" fill="#ebf5fb" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="210" y="200" text-anchor="middle" font-size="12" fill="#2c3e50">Tag 1: Recv con[0]</text>
+  
+  <!-- Step 3: Send con[local_Nx] from Right to Left -->
+  <!-- Arrow from Right to Left for Send -->
+  <line x1="478" y1="255" x2="330" y2="255" stroke="#e74c3c" stroke-width="2.5"/>
+  <polygon points="335,250 325,255 335,260" fill="#e74c3c"/>
+  
+  <rect x="90" y="235" width="240" height="40" rx="3" fill="#ebf5fb" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="210" y="260" text-anchor="middle" font-size="12" fill="#2c3e50">Tag 1: Recv con[0]</text>
+  
+  <rect x="520" y="235" width="240" height="40" rx="3" fill="#eafaf1" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="640" y="260" text-anchor="middle" font-size="12" fill="#2c3e50">Tag 1: Send con[local_Nx]</text>
+  
+  <!-- Continue computation labels -->
+  <rect x="90" y="320" width="240" height="35" rx="3" fill="#f9e79f" stroke="#f1c40f" stroke-width="1.5"/>
+  <text x="210" y="342" text-anchor="middle" font-size="12" font-weight="bold" fill="#7d6608">Continue computation</text>
+  
+  <rect x="520" y="320" width="240" height="35" rx="3" fill="#f9e79f" stroke="#f1c40f" stroke-width="1.5"/>
+  <text x="640" y="342" text-anchor="middle" font-size="12" font-weight="bold" fill="#7d6608">Continue computation</text>
+  
+  <!-- Vertical arrows for time flow -->
+  <line x1="210" y1="155" x2="210" y2="173" stroke="#7f8c8d" stroke-width="1.5"/>
+  <polygon points="206,168 210,175 214,168" fill="#7f8c8d"/>
+  
+  <line x1="210" y1="215" x2="210" y2="233" stroke="#7f8c8d" stroke-width="1.5"/>
+  <polygon points="206,228 210,235 214,228" fill="#7f8c8d"/>
+  
+  <line x1="210" y1="275" x2="210" y2="293" stroke="#7f8c8d" stroke-width="1.5"/>
+  <polygon points="206,288 210,295 214,288" fill="#7f8c8d"/>
+  
+  <line x1="640" y1="155" x2="640" y2="173" stroke="#7f8c8d" stroke-width="1.5"/>
+  <polygon points="636,168 640,175 644,168" fill="#7f8c8d"/>
+  
+  <line x1="640" y1="215" x2="640" y2="233" stroke="#7f8c8d" stroke-width="1.5"/>
+  <polygon points="636,228 640,235 644,228" fill="#7f8c8d"/>
+  
+  <line x1="640" y1="275" x2="640" y2="293" stroke="#7f8c8d" stroke-width="1.5"/>
+  <polygon points="636,288 640,295 644,288" fill="#7f8c8d"/>
+  
+  <!-- Labels for communication -->
+  <text x="405" y="130" text-anchor="middle" font-size="9" fill="#e74c3c">MPI_Send</text>
+  <text x="405" y="190" text-anchor="middle" font-size="9" fill="#3498db">MPI_Recv</text>
+  <text x="405" y="250" text-anchor="middle" font-size="9" fill="#e74c3c">MPI_Send</text>
+  
+  <!-- Arrow from Right to Left for Recv con[local_Nx+1] -->
+  <!-- This is the response to the first Send -->
+  
+  <!-- Legend -->
+  <rect x="50" y="450" width="750" height="25" rx="4" ry="4" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1"/>
+  <text x="70" y="467" font-size="10" font-weight="bold" fill="#495057">Legend:</text>
+  
+  <line x1="150" y1="463" x2="180" y2="463" stroke="#e74c3c" stroke-width="2.5"/>
+  <polygon points="175,458 185,463 175,468" fill="#e74c3c"/>
+  <text x="190" y="467" font-size="10" fill="#495057">MPI_Send</text>
+  
+  <line x1="280" y1="463" x2="310" y2="463" stroke="#3498db" stroke-width="2.5"/>
+  <polygon points="305,458 315,463 305,468" fill="#3498db"/>
+  <text x="320" y="467" font-size="10" fill="#495057">MPI_Recv</text>
+  
+  <rect x="420" y="457" width="20" height="12" rx="2" fill="#f9e79f" stroke="#f1c40f" stroke-width="1"/>
+  <text x="450" y="467" font-size="10" fill="#495057">Computation</text>
+  
+  <rect x="550" y="457" width="20" height="12" rx="2" fill="#ebf5fb" stroke="#2980b9" stroke-width="1"/>
+  <text x="580" y="467" font-size="10" fill="#495057">Send/Recv Operations</text>
+</svg>

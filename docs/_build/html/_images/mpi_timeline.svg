@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 380" font-family="monospace">
+  <!-- Background -->
+  <rect width="800" height="380" fill="#ffffff"/>
+  
+  <!-- Title -->
+  <text x="400" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#2c3e50">MPI Program Execution Timeline</text>
+  
+  <!-- Time arrow (horizontal) -->
+  <defs>
+    <marker id="arrowRight" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10" fill="#2c3e50"/>
+    </marker>
+  </defs>
+  
+  <!-- Time axis -->
+  <line x1="50" y1="55" x2="750" y2="55" stroke="#2c3e50" stroke-width="2"/>
+  <text x="755" y="50" font-size="14" font-weight="bold" fill="#2c3e50">Time</text>
+  <polygon points="748,50 758,55 748,60" fill="#2c3e50"/>
+  
+  <!-- Time ticks -->
+  <line x1="100" y1="50" x2="100" y2="60" stroke="#2c3e50" stroke-width="1.5"/>
+  <line x1="200" y1="50" x2="200" y2="60" stroke="#2c3e50" stroke-width="1.5"/>
+  <line x1="300" y1="50" x2="300" y2="60" stroke="#2c3e50" stroke-width="1.5"/>
+  <line x1="400" y1="50" x2="400" y2="60" stroke="#2c3e50" stroke-width="1.5"/>
+  <line x1="500" y1="50" x2="500" y2="60" stroke="#2c3e50" stroke-width="1.5"/>
+  <line x1="600" y1="50" x2="600" y2="60" stroke="#2c3e50" stroke-width="1.5"/>
+  
+  <!-- MPI_Init box -->
+  <rect x="80" y="100" width="150" height="40" rx="4" ry="4" fill="#3498db" stroke="#2980b9" stroke-width="2"/>
+  <text x="155" y="125" text-anchor="middle" font-size="13" font-weight="bold" fill="white">MPI_Init</text>
+  
+  <!-- Arrow from MPI_Init to rank info -->
+  <line x1="230" y1="120" x2="290" y2="120" stroke="#e67e22" stroke-width="2"/>
+  <polygon points="285,115 295,120 285,125" fill="#e67e22"/>
+  
+  <!-- Rank info box -->
+  <rect x="300" y="100" width="280" height="40" rx="4" ry="4" fill="#2ecc71" stroke="#27ae60" stroke-width="2"/>
+  <text x="440" y="120" text-anchor="middle" font-size="12" font-weight="bold" fill="white">All processes get their rank</text>
+  <text x="440" y="133" text-anchor="middle" font-size="10" fill="#eafaf1">(MPI_Comm_rank)</text>
+  
+  <!-- Process labels -->
+  <text x="30" y="200" font-size="13" font-weight="bold" fill="#e74c3c">Process 0:</text>
+  <text x="30" y="235" font-size="13" font-weight="bold" fill="#e67e22">Process 1:</text>
+  <text x="30" y="270" font-size="13" font-weight="bold" fill="#3498db">Process 2:</text>
+  <text x="30" y="305" font-size="13" font-weight="bold" fill="#9b59b6">Process 3:</text>
+  
+  <!-- Process 0 timeline -->
+  <line x1="110" y1="195" x2="690" y2="195" stroke="#e74c3c" stroke-width="3"/>
+  <circle cx="110" cy="195" r="5" fill="#e74c3c"/>
+  
+  <!-- Process 1 timeline -->
+  <line x1="110" y1="230" x2="690" y2="230" stroke="#e67e22" stroke-width="3"/>
+  <circle cx="110" cy="230" r="5" fill="#e67e22"/>
+  
+  <!-- Process 2 timeline -->
+  <line x1="110" y1="265" x2="690" y2="265" stroke="#3498db" stroke-width="3"/>
+  <circle cx="110" cy="265" r="5" fill="#3498db"/>
+  
+  <!-- Process 3 timeline -->
+  <line x1="110" y1="300" x2="690" y2="300" stroke="#9b59b6" stroke-width="3"/>
+  <circle cx="110" cy="300" r="5" fill="#9b59b6"/>
+  
+  <!-- Vertical line showing simultaneous start -->
+  <line x1="110" y1="180" x2="110" y2="315" stroke="#e67e22" stroke-width="1.5" stroke-dasharray="5,5"/>
+  
+  <!-- "All processes start simultaneously" label -->
+  <rect x="200" y="330" width="280" height="35" rx="4" ry="4" fill="#f39c12" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="340" y="352" text-anchor="middle" font-size="12" font-weight="bold" fill="white">All processes start simultaneously</text>
+  
+  <!-- Arrow from processes to simultaneous start label -->
+  <line x1="110" y1="315" x2="110" y2="330" stroke="#7f8c8d" stroke-width="1.5"/>
+  <line x1="110" y1="330" x2="200" y2="347" stroke="#7f8c8d" stroke-width="1.5" stroke-dasharray="3,3"/>
+  
+  <!-- Computation blocks on process timelines -->
+  <!-- Process 0 computation -->
+  <rect x="160" y="185" width="80" height="20" rx="3" fill="#f1948a" stroke="#e74c3c" stroke-width="1"/>
+  <text x="200" y="198" text-anchor="middle" font-size="9" fill="#922b21">Compute</text>
+  
+  <rect x="280" y="185" width="100" height="20" rx="3" fill="#f1948a" stroke="#e74c3c" stroke-width="1"/>
+  <text x="330" y="198" text-anchor="middle" font-size="9" fill="#922b21">Compute</text>
+  
+  <rect x="450" y="185" width="120" height="20" rx="3" fill="#f1948a" stroke="#e74c3c" stroke-width="1"/>
+  <text x="510" y="198" text-anchor="middle" font-size="9" fill="#922b21">Compute</text>
+  
+  <!-- Process 1 computation -->
+  <rect x="200" y="220" width="70" height="20" rx="3" fill="#f8c471" stroke="#e67e22" stroke-width="1"/>
+  <text x="235" y="233" text-anchor="middle" font-size="9" fill="#7d6608">Compute</text>
+  
+  <rect x="350" y="220" width="80" height="20" rx="3" fill="#f8c471" stroke="#e67e22" stroke-width="1"/>
+  <text x="390" y="233" text-anchor="middle" font-size="9" fill="#7d6608">Compute</text>
+  
+  <!-- Process 2 computation -->
+  <rect x="180" y="255" width="60" height="20" rx="3" fill="#85c1e9" stroke="#3498db" stroke-width="1"/>
+  <text x="210" y="268" text-anchor="middle" font-size="9" fill="#1b4f72">Compute</text>
+  
+  <rect x="320" y="255" width="90" height="20" rx="3" fill="#85c1e9" stroke="#3498db" stroke-width="1"/>
+  <text x="365" y="268" text-anchor="middle" font-size="9" fill="#1b4f72">Compute</text>
+  
+  <!-- Process 3 computation -->
+  <rect x="240" y="290" width="70" height="20" rx="3" fill="#bb8fce" stroke="#9b59b6" stroke-width="1"/>
+  <text x="275" y="303" text-anchor="middle" font-size="9" fill="#4a235a">Compute</text>
+  
+  <rect x="400" y="290" width="100" height="20" rx="3" fill="#bb8fce" stroke="#9b59b6" stroke-width="1"/>
+  <text x="450" y="303" text-anchor="middle" font-size="9" fill="#4a235a">Compute</text>
+  
+  <!-- Legend -->
+  <rect x="50" y="375" width="700" height="35" rx="4" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1"/>
+  <text x="70" y="397" font-size="11" font-weight="bold" fill="#495057">Legend:</text>
+  
+  <rect x="140" y="386" width="20" height="12" rx="2" fill="#3498db"/>
+  <text x="165" y="397" font-size="10" fill="#495057">MPI_Init</text>
+  
+  <rect x="240" y="386" width="20" height="12" rx="2" fill="#2ecc71"/>
+  <text x="265" y="397" font-size="10" fill="#495057">Rank Assignment</text>
+  
+  <rect x="380" y="386" width="20" height="12" rx="2" fill="#f1948a"/>
+  <text x="405" y="397" font-size="10" fill="#495057">Computation</text>
+  
+  <rect x="500" y="386" width="20" height="12" rx="2" fill="#f39c12"/>
+  <text x="525" y="397" font-size="10" fill="#495057">Simultaneous Start</text>
+</svg>
