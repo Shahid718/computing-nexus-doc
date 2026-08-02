@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 420" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <marker id="arrowDown" markerWidth="10" markerHeight="10" refX="5" refY="0" orient="auto">
+      <polygon points="0,10 5,0 10,10" fill="#333333"/>
+    </marker>
+  </defs>
+
+  <!-- Single border around entire figure -->
+  <rect x="10" y="10" width="480" height="350" rx="0" fill="none" stroke="#333333" stroke-width="2"/>
+
+  <!-- Register Box -->
+  <rect x="75" y="50" width="350" height="80" rx="8" fill="#f0f4f8" stroke="#444444" stroke-width="2"/>
+  
+  <!-- Register Label -->
+  <text x="250" y="80" text-anchor="middle" fill="#222222" font-size="16" font-weight="bold">Memory (Register)</text>
+  
+  <!-- Register Details -->
+  <rect x="100" y="95" width="300" height="25" rx="4" fill="#e8ecf0" stroke="#cccccc" stroke-width="1"/>
+  <text x="250" y="113" text-anchor="middle" fill="#333333" font-size="13" font-weight="bold" font-family="'Courier New', monospace">256-bit YMM Register</text>
+
+  <!-- Arrow pointing straight down -->
+  <line x1="250" y1="130" x2="250" y2="195" stroke="#333333" stroke-width="2"/>
+  
+  <!-- Arrow head (drawn separately to ensure vertical alignment) -->
+  <polygon points="242,195 250,205 258,195" fill="#333333"/>
+  
+  <!-- Arrow Label -->
+  <text x="260" y="168" fill="#555555" font-size="12" font-style="italic">feeds</text>
+
+  <!-- ALU Box -->
+  <rect x="75" y="210" width="350" height="80" rx="8" fill="#f0f4f8" stroke="#444444" stroke-width="2"/>
+  
+  <!-- ALU Label -->
+  <text x="250" y="240" text-anchor="middle" fill="#222222" font-size="16" font-weight="bold">Execution Unit</text>
+  
+  <!-- ALU Details -->
+  <rect x="100" y="255" width="300" height="25" rx="4" fill="#e8ecf0" stroke="#cccccc" stroke-width="1"/>
+  <text x="250" y="273" text-anchor="middle" fill="#333333" font-size="13" font-weight="bold" font-family="'Courier New', monospace">256-bit Vector ALU</text>
+</svg>

@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 580" font-family="'Segoe UI', Arial, sans-serif">
+  <!-- Single border around entire figure -->
+  <rect x="10" y="10" width="730" height="560" rx="0" fill="white" stroke="#333333" stroke-width="2"/>
+
+  <!-- Title Section -->
+  <text x="375" y="40" text-anchor="middle" fill="#1a1a1a" font-size="18" font-weight="bold" letter-spacing="2">VECTOR REGISTER FILE — AVX2</text>
+  <text x="375" y="60" text-anchor="middle" fill="#555555" font-size="12" letter-spacing="1">16 Vector Registers per Core (YMM0 – YMM15) · 256-bit Each · 8 × FP32 Elements</text>
+  <line x1="100" y1="72" x2="650" y2="72" stroke="#cccccc" stroke-width="1"/>
+
+  <!-- Table Header -->
+  <rect x="50" y="85" width="100" height="28" rx="0" fill="#e8ecf0" stroke="#999999" stroke-width="1"/>
+  <text x="100" y="104" text-anchor="middle" fill="#1a1a1a" font-size="12" font-weight="bold">Register</text>
+
+  <rect x="160" y="85" width="480" height="28" rx="0" fill="#e8ecf0" stroke="#999999" stroke-width="1"/>
+
+
+  <!-- Element Index Labels -->
+  <text x="210" y="104" text-anchor="middle" fill="#666666" font-size="10" font-weight="bold">0</text>
+  <text x="290" y="104" text-anchor="middle" fill="#666666" font-size="10" font-weight="bold">1</text>
+  <text x="370" y="104" text-anchor="middle" fill="#666666" font-size="10" font-weight="bold">2</text>
+  <text x="450" y="104" text-anchor="middle" fill="#666666" font-size="10" font-weight="bold">3</text>
+  <text x="530" y="104" text-anchor="middle" fill="#666666" font-size="10" font-weight="bold">4</text>
+
+  <!-- Continuity indicator for elements 5-7 -->
+  <text x="610" y="104" text-anchor="middle" fill="#666666" font-size="10" font-weight="bold">...</text>
+
+  <!-- YMM0 -->
+  <rect x="50" y="120" width="100" height="34" rx="0" fill="#d4e4f4" stroke="#6699bb" stroke-width="1.5"/>
+  <text x="100" y="142" text-anchor="middle" fill="#1a3a5a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">YMM0</text>
+
+  <rect x="160" y="120" width="72" height="34" rx="0" fill="#e8f4e8" stroke="#88bb88" stroke-width="1.2"/>
+  <text x="196" y="142" text-anchor="middle" fill="#2a5a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="240" y="120" width="72" height="34" rx="0" fill="#f4ece8" stroke="#cc9988" stroke-width="1.2"/>
+  <text x="276" y="142" text-anchor="middle" fill="#7a4a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="320" y="120" width="72" height="34" rx="0" fill="#e8f4e8" stroke="#88bb88" stroke-width="1.2"/>
+  <text x="356" y="142" text-anchor="middle" fill="#2a5a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="400" y="120" width="72" height="34" rx="0" fill="#f4ece8" stroke="#cc9988" stroke-width="1.2"/>
+  <text x="436" y="142" text-anchor="middle" fill="#7a4a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="480" y="120" width="72" height="34" rx="0" fill="#e8f4e8" stroke="#88bb88" stroke-width="1.2"/>
+  <text x="516" y="142" text-anchor="middle" fill="#2a5a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <text x="610" y="142" text-anchor="middle" fill="#999999" font-size="14" font-weight="bold">...</text>
+
+  <!-- YMM1 -->
+  <rect x="50" y="160" width="100" height="34" rx="0" fill="#d4e4f4" stroke="#6699bb" stroke-width="1.5"/>
+  <text x="100" y="182" text-anchor="middle" fill="#1a3a5a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">YMM1</text>
+
+  <rect x="160" y="160" width="72" height="34" rx="0" fill="#f4ece8" stroke="#cc9988" stroke-width="1.2"/>
+  <text x="196" y="182" text-anchor="middle" fill="#7a4a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="240" y="160" width="72" height="34" rx="0" fill="#e8f4e8" stroke="#88bb88" stroke-width="1.2"/>
+  <text x="276" y="182" text-anchor="middle" fill="#2a5a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="320" y="160" width="72" height="34" rx="0" fill="#f4ece8" stroke="#cc9988" stroke-width="1.2"/>
+  <text x="356" y="182" text-anchor="middle" fill="#7a4a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="400" y="160" width="72" height="34" rx="0" fill="#e8f4e8" stroke="#88bb88" stroke-width="1.2"/>
+  <text x="436" y="182" text-anchor="middle" fill="#2a5a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="480" y="160" width="72" height="34" rx="0" fill="#f4ece8" stroke="#cc9988" stroke-width="1.2"/>
+  <text x="516" y="182" text-anchor="middle" fill="#7a4a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <text x="610" y="182" text-anchor="middle" fill="#999999" font-size="14" font-weight="bold">...</text>
+
+  <!-- YMM2 -->
+  <rect x="50" y="200" width="100" height="34" rx="0" fill="#d4e4f4" stroke="#6699bb" stroke-width="1.5"/>
+  <text x="100" y="222" text-anchor="middle" fill="#1a3a5a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">YMM2</text>
+
+  <rect x="160" y="200" width="72" height="34" rx="0" fill="#e8f4e8" stroke="#88bb88" stroke-width="1.2"/>
+  <text x="196" y="222" text-anchor="middle" fill="#2a5a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="240" y="200" width="72" height="34" rx="0" fill="#f4ece8" stroke="#cc9988" stroke-width="1.2"/>
+  <text x="276" y="222" text-anchor="middle" fill="#7a4a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="320" y="200" width="72" height="34" rx="0" fill="#e8f4e8" stroke="#88bb88" stroke-width="1.2"/>
+  <text x="356" y="222" text-anchor="middle" fill="#2a5a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="400" y="200" width="72" height="34" rx="0" fill="#f4ece8" stroke="#cc9988" stroke-width="1.2"/>
+  <text x="436" y="222" text-anchor="middle" fill="#7a4a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="480" y="200" width="72" height="34" rx="0" fill="#e8f4e8" stroke="#88bb88" stroke-width="1.2"/>
+  <text x="516" y="222" text-anchor="middle" fill="#2a5a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <text x="610" y="222" text-anchor="middle" fill="#999999" font-size="14" font-weight="bold">...</text>
+
+  <!-- YMM3 -->
+  <rect x="50" y="240" width="100" height="34" rx="0" fill="#d4e4f4" stroke="#6699bb" stroke-width="1.5"/>
+  <text x="100" y="262" text-anchor="middle" fill="#1a3a5a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">YMM3</text>
+
+  <rect x="160" y="240" width="72" height="34" rx="0" fill="#f4ece8" stroke="#cc9988" stroke-width="1.2"/>
+  <text x="196" y="262" text-anchor="middle" fill="#7a4a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="240" y="240" width="72" height="34" rx="0" fill="#e8f4e8" stroke="#88bb88" stroke-width="1.2"/>
+  <text x="276" y="262" text-anchor="middle" fill="#2a5a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="320" y="240" width="72" height="34" rx="0" fill="#f4ece8" stroke="#cc9988" stroke-width="1.2"/>
+  <text x="356" y="262" text-anchor="middle" fill="#7a4a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="400" y="240" width="72" height="34" rx="0" fill="#e8f4e8" stroke="#88bb88" stroke-width="1.2"/>
+  <text x="436" y="262" text-anchor="middle" fill="#2a5a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="480" y="240" width="72" height="34" rx="0" fill="#f4ece8" stroke="#cc9988" stroke-width="1.2"/>
+  <text x="516" y="262" text-anchor="middle" fill="#7a4a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <text x="610" y="262" text-anchor="middle" fill="#999999" font-size="14" font-weight="bold">...</text>
+
+  <!-- YMM4 -->
+  <rect x="50" y="280" width="100" height="34" rx="0" fill="#d4e4f4" stroke="#6699bb" stroke-width="1.5"/>
+  <text x="100" y="302" text-anchor="middle" fill="#1a3a5a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">YMM4</text>
+
+  <rect x="160" y="280" width="72" height="34" rx="0" fill="#e8f4e8" stroke="#88bb88" stroke-width="1.2"/>
+  <text x="196" y="302" text-anchor="middle" fill="#2a5a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="240" y="280" width="72" height="34" rx="0" fill="#f4ece8" stroke="#cc9988" stroke-width="1.2"/>
+  <text x="276" y="302" text-anchor="middle" fill="#7a4a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="320" y="280" width="72" height="34" rx="0" fill="#e8f4e8" stroke="#88bb88" stroke-width="1.2"/>
+  <text x="356" y="302" text-anchor="middle" fill="#2a5a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="400" y="280" width="72" height="34" rx="0" fill="#f4ece8" stroke="#cc9988" stroke-width="1.2"/>
+  <text x="436" y="302" text-anchor="middle" fill="#7a4a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="480" y="280" width="72" height="34" rx="0" fill="#e8f4e8" stroke="#88bb88" stroke-width="1.2"/>
+  <text x="516" y="302" text-anchor="middle" fill="#2a5a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <text x="610" y="302" text-anchor="middle" fill="#999999" font-size="14" font-weight="bold">...</text>
+
+  <!-- Continuation Indicator for Registers -->
+  <line x1="200" y1="335" x2="550" y2="335" stroke="#999999" stroke-width="1.5" stroke-dasharray="8,6"/>
+  <text x="375" y="355" text-anchor="middle" fill="#777777" font-size="16" font-weight="bold">. . .</text>
+  <line x1="200" y1="375" x2="550" y2="375" stroke="#999999" stroke-width="1.5" stroke-dasharray="8,6"/>
+
+  <!-- YMM15 -->
+  <rect x="50" y="395" width="100" height="34" rx="0" fill="#d4e4f4" stroke="#6699bb" stroke-width="1.5"/>
+  <text x="100" y="417" text-anchor="middle" fill="#1a3a5a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">YMM15</text>
+
+  <rect x="160" y="395" width="72" height="34" rx="0" fill="#e8f4e8" stroke="#88bb88" stroke-width="1.2"/>
+  <text x="196" y="417" text-anchor="middle" fill="#2a5a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="240" y="395" width="72" height="34" rx="0" fill="#f4ece8" stroke="#cc9988" stroke-width="1.2"/>
+  <text x="276" y="417" text-anchor="middle" fill="#7a4a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="320" y="395" width="72" height="34" rx="0" fill="#e8f4e8" stroke="#88bb88" stroke-width="1.2"/>
+  <text x="356" y="417" text-anchor="middle" fill="#2a5a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="400" y="395" width="72" height="34" rx="0" fill="#f4ece8" stroke="#cc9988" stroke-width="1.2"/>
+  <text x="436" y="417" text-anchor="middle" fill="#7a4a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <rect x="480" y="395" width="72" height="34" rx="0" fill="#e8f4e8" stroke="#88bb88" stroke-width="1.2"/>
+  <text x="516" y="417" text-anchor="middle" fill="#2a5a3a" font-size="11" font-weight="bold" font-family="'Courier New', monospace">FP32</text>
+
+  <text x="610" y="417" text-anchor="middle" fill="#999999" font-size="14" font-weight="bold">...</text>
+
+  <!-- Legend -->
+  <rect x="50" y="455" width="630" height="85" rx="0" fill="#f8f8f8" stroke="#cccccc" stroke-width="1"/>
+  <text x="70" y="475" fill="#1a1a1a" font-size="13" font-weight="bold">Legend:</text>
+
+  <rect x="70" y="488" width="18" height="12" rx="0" fill="#d4e4f4" stroke="#6699bb" stroke-width="1"/>
+  <text x="95" y="498" fill="#333333" font-size="11">YMM0–YMM15 = Vector Register Names</text>
+
+  <rect x="70" y="506" width="18" height="12" rx="0" fill="#e8f4e8" stroke="#88bb88" stroke-width="1"/>
+  <text x="95" y="516" fill="#333333" font-size="11">FP32 (green) = Even elements (0, 2, 4)</text>
+
+  <rect x="330" y="488" width="18" height="12" rx="0" fill="#f4ece8" stroke="#cc9988" stroke-width="1"/>
+  <text x="355" y="498" fill="#333333" font-size="11">FP32 (orange) = Odd elements (1, 3, 5)</text>
+
+  <text x="330" y="516" fill="#333333" font-size="11">... = Continuation (Elements 6–7, Registers YMM5–YMM14)</text>
+
+  <!-- Summary Box -->
+  <rect x="200" y="550" width="350" height="22" rx="0" fill="#e8ecf0" stroke="#999999" stroke-width="1"/>
+  <text x="375" y="565" text-anchor="middle" fill="#1a1a1a" font-size="11" font-weight="bold">Total: 16 Registers × 8 FP32 Elements = 128 FP32 Values per Core</text>
+
+</svg>

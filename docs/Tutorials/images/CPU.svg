@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 680" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+  
+  <!-- Single border around entire figure -->
+  <rect x="10" y="10" width="980" height="660" rx="0" fill="none" stroke="#333333" stroke-width="2"/>
+
+  <!-- Package Title -->
+  <text x="500" y="45" text-anchor="middle" fill="#1a1a1a" font-size="20" font-weight="bold" letter-spacing="3">CPU</text>
+
+  <!-- Cores Container -->
+  <rect x="50" y="80" width="900" height="540" rx="0" fill="none" stroke="#999999" stroke-width="1.5" stroke-dasharray="8,4"/>
+
+  <!-- "PHYSICAL CORES (×4)" Label -->
+  <text x="500" y="100" text-anchor="middle" fill="#333333" font-size="15" font-weight="bold" letter-spacing="2">PHYSICAL CORES (×4)</text>
+
+  <!-- ==================== CORE 0 ==================== -->
+  <g transform="translate(72, 115)">
+    <!-- Core Border -->
+    <rect x="0" y="0" width="195" height="470" rx="0" fill="none" stroke="#444444" stroke-width="2"/>
+
+    <!-- Core Header -->
+    <text x="97" y="25" text-anchor="middle" fill="#1a1a1a" font-size="16" font-weight="bold">CORE 0</text>
+
+    <!-- AVX2 Unit Label -->
+    <rect x="15" y="40" width="165" height="28" rx="0" fill="#e8ecf0" stroke="#888888" stroke-width="1"/>
+    <text x="97" y="59" text-anchor="middle" fill="#333333" font-size="12" font-weight="bold">AVX2 UNIT — 256-bit</text>
+
+    <!-- 8 FP32 Lanes -->
+    <rect x="25" y="80" width="145" height="34" rx="0" fill="none" stroke="#66aa66" stroke-width="1.5"/>
+    <text x="97" y="102" text-anchor="middle" fill="#2a5a3a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [0]</text>
+
+    <rect x="25" y="122" width="145" height="34" rx="0" fill="none" stroke="#cc8844" stroke-width="1.5"/>
+    <text x="97" y="144" text-anchor="middle" fill="#7a4a1a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [1]</text>
+
+    <rect x="25" y="164" width="145" height="34" rx="0" fill="none" stroke="#66aa66" stroke-width="1.5"/>
+    <text x="97" y="186" text-anchor="middle" fill="#2a5a3a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [2]</text>
+
+    <rect x="25" y="206" width="145" height="34" rx="0" fill="none" stroke="#cc8844" stroke-width="1.5"/>
+    <text x="97" y="228" text-anchor="middle" fill="#7a4a1a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [3]</text>
+
+    <rect x="25" y="248" width="145" height="34" rx="0" fill="none" stroke="#66aa66" stroke-width="1.5"/>
+    <text x="97" y="270" text-anchor="middle" fill="#2a5a3a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [4]</text>
+
+    <rect x="25" y="290" width="145" height="34" rx="0" fill="none" stroke="#cc8844" stroke-width="1.5"/>
+    <text x="97" y="312" text-anchor="middle" fill="#7a4a1a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [5]</text>
+
+    <rect x="25" y="332" width="145" height="34" rx="0" fill="none" stroke="#66aa66" stroke-width="1.5"/>
+    <text x="97" y="354" text-anchor="middle" fill="#2a5a3a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [6]</text>
+
+    <rect x="25" y="374" width="145" height="34" rx="0" fill="none" stroke="#cc8844" stroke-width="1.5"/>
+    <text x="97" y="396" text-anchor="middle" fill="#7a4a1a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [7]</text>
+
+    <!-- Footer: 8x FP32 per cycle -->
+    <rect x="25" y="420" width="145" height="22" rx="0" fill="none" stroke="#888888" stroke-width="1" stroke-dasharray="4,2"/>
+    <text x="97" y="435" text-anchor="middle" fill="#555555" font-size="11" font-weight="bold">8× FP32 / cycle</text>
+  </g>
+
+  <!-- ==================== CORE 1 ==================== -->
+  <g transform="translate(287, 115)">
+    <rect x="0" y="0" width="195" height="470" rx="0" fill="none" stroke="#444444" stroke-width="2"/>
+    <text x="97" y="25" text-anchor="middle" fill="#1a1a1a" font-size="16" font-weight="bold">CORE 1</text>
+
+    <rect x="15" y="40" width="165" height="28" rx="0" fill="#e8ecf0" stroke="#888888" stroke-width="1"/>
+    <text x="97" y="59" text-anchor="middle" fill="#333333" font-size="12" font-weight="bold">AVX2 UNIT — 256-bit</text>
+
+    <rect x="25" y="80" width="145" height="34" rx="0" fill="none" stroke="#cc8844" stroke-width="1.5"/>
+    <text x="97" y="102" text-anchor="middle" fill="#7a4a1a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [0]</text>
+
+    <rect x="25" y="122" width="145" height="34" rx="0" fill="none" stroke="#66aa66" stroke-width="1.5"/>
+    <text x="97" y="144" text-anchor="middle" fill="#2a5a3a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [1]</text>
+
+    <rect x="25" y="164" width="145" height="34" rx="0" fill="none" stroke="#cc8844" stroke-width="1.5"/>
+    <text x="97" y="186" text-anchor="middle" fill="#7a4a1a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [2]</text>
+
+    <rect x="25" y="206" width="145" height="34" rx="0" fill="none" stroke="#66aa66" stroke-width="1.5"/>
+    <text x="97" y="228" text-anchor="middle" fill="#2a5a3a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [3]</text>
+
+    <rect x="25" y="248" width="145" height="34" rx="0" fill="none" stroke="#cc8844" stroke-width="1.5"/>
+    <text x="97" y="270" text-anchor="middle" fill="#7a4a1a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [4]</text>
+
+    <rect x="25" y="290" width="145" height="34" rx="0" fill="none" stroke="#66aa66" stroke-width="1.5"/>
+    <text x="97" y="312" text-anchor="middle" fill="#2a5a3a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [5]</text>
+
+    <rect x="25" y="332" width="145" height="34" rx="0" fill="none" stroke="#cc8844" stroke-width="1.5"/>
+    <text x="97" y="354" text-anchor="middle" fill="#7a4a1a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [6]</text>
+
+    <rect x="25" y="374" width="145" height="34" rx="0" fill="none" stroke="#66aa66" stroke-width="1.5"/>
+    <text x="97" y="396" text-anchor="middle" fill="#2a5a3a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [7]</text>
+
+    <rect x="25" y="420" width="145" height="22" rx="0" fill="none" stroke="#888888" stroke-width="1" stroke-dasharray="4,2"/>
+    <text x="97" y="435" text-anchor="middle" fill="#555555" font-size="11" font-weight="bold">8× FP32 / cycle</text>
+  </g>
+
+  <!-- ==================== CORE 2 ==================== -->
+  <g transform="translate(502, 115)">
+    <rect x="0" y="0" width="195" height="470" rx="0" fill="none" stroke="#444444" stroke-width="2"/>
+    <text x="97" y="25" text-anchor="middle" fill="#1a1a1a" font-size="16" font-weight="bold">CORE 2</text>
+
+    <rect x="15" y="40" width="165" height="28" rx="0" fill="#e8ecf0" stroke="#888888" stroke-width="1"/>
+    <text x="97" y="59" text-anchor="middle" fill="#333333" font-size="12" font-weight="bold">AVX2 UNIT — 256-bit</text>
+
+    <rect x="25" y="80" width="145" height="34" rx="0" fill="none" stroke="#66aa66" stroke-width="1.5"/>
+    <text x="97" y="102" text-anchor="middle" fill="#2a5a3a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [0]</text>
+
+    <rect x="25" y="122" width="145" height="34" rx="0" fill="none" stroke="#cc8844" stroke-width="1.5"/>
+    <text x="97" y="144" text-anchor="middle" fill="#7a4a1a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [1]</text>
+
+    <rect x="25" y="164" width="145" height="34" rx="0" fill="none" stroke="#66aa66" stroke-width="1.5"/>
+    <text x="97" y="186" text-anchor="middle" fill="#2a5a3a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [2]</text>
+
+    <rect x="25" y="206" width="145" height="34" rx="0" fill="none" stroke="#cc8844" stroke-width="1.5"/>
+    <text x="97" y="228" text-anchor="middle" fill="#7a4a1a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [3]</text>
+
+    <rect x="25" y="248" width="145" height="34" rx="0" fill="none" stroke="#66aa66" stroke-width="1.5"/>
+    <text x="97" y="270" text-anchor="middle" fill="#2a5a3a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [4]</text>
+
+    <rect x="25" y="290" width="145" height="34" rx="0" fill="none" stroke="#cc8844" stroke-width="1.5"/>
+    <text x="97" y="312" text-anchor="middle" fill="#7a4a1a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [5]</text>
+
+    <rect x="25" y="332" width="145" height="34" rx="0" fill="none" stroke="#66aa66" stroke-width="1.5"/>
+    <text x="97" y="354" text-anchor="middle" fill="#2a5a3a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [6]</text>
+
+    <rect x="25" y="374" width="145" height="34" rx="0" fill="none" stroke="#cc8844" stroke-width="1.5"/>
+    <text x="97" y="396" text-anchor="middle" fill="#7a4a1a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [7]</text>
+
+    <rect x="25" y="420" width="145" height="22" rx="0" fill="none" stroke="#888888" stroke-width="1" stroke-dasharray="4,2"/>
+    <text x="97" y="435" text-anchor="middle" fill="#555555" font-size="11" font-weight="bold">8× FP32 / cycle</text>
+  </g>
+
+  <!-- ==================== CORE 3 ==================== -->
+  <g transform="translate(717, 115)">
+    <rect x="0" y="0" width="195" height="470" rx="0" fill="none" stroke="#444444" stroke-width="2"/>
+    <text x="97" y="25" text-anchor="middle" fill="#1a1a1a" font-size="16" font-weight="bold">CORE 3</text>
+
+    <rect x="15" y="40" width="165" height="28" rx="0" fill="#e8ecf0" stroke="#888888" stroke-width="1"/>
+    <text x="97" y="59" text-anchor="middle" fill="#333333" font-size="12" font-weight="bold">AVX2 UNIT — 256-bit</text>
+
+    <rect x="25" y="80" width="145" height="34" rx="0" fill="none" stroke="#cc8844" stroke-width="1.5"/>
+    <text x="97" y="102" text-anchor="middle" fill="#7a4a1a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [0]</text>
+
+    <rect x="25" y="122" width="145" height="34" rx="0" fill="none" stroke="#66aa66" stroke-width="1.5"/>
+    <text x="97" y="144" text-anchor="middle" fill="#2a5a3a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [1]</text>
+
+    <rect x="25" y="164" width="145" height="34" rx="0" fill="none" stroke="#cc8844" stroke-width="1.5"/>
+    <text x="97" y="186" text-anchor="middle" fill="#7a4a1a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [2]</text>
+
+    <rect x="25" y="206" width="145" height="34" rx="0" fill="none" stroke="#66aa66" stroke-width="1.5"/>
+    <text x="97" y="228" text-anchor="middle" fill="#2a5a3a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [3]</text>
+
+    <rect x="25" y="248" width="145" height="34" rx="0" fill="none" stroke="#cc8844" stroke-width="1.5"/>
+    <text x="97" y="270" text-anchor="middle" fill="#7a4a1a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [4]</text>
+
+    <rect x="25" y="290" width="145" height="34" rx="0" fill="none" stroke="#66aa66" stroke-width="1.5"/>
+    <text x="97" y="312" text-anchor="middle" fill="#2a5a3a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [5]</text>
+
+    <rect x="25" y="332" width="145" height="34" rx="0" fill="none" stroke="#cc8844" stroke-width="1.5"/>
+    <text x="97" y="354" text-anchor="middle" fill="#7a4a1a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [6]</text>
+
+    <rect x="25" y="374" width="145" height="34" rx="0" fill="none" stroke="#66aa66" stroke-width="1.5"/>
+    <text x="97" y="396" text-anchor="middle" fill="#2a5a3a" font-size="13" font-weight="bold" font-family="'Courier New', monospace">FP32 [7]</text>
+
+    <rect x="25" y="420" width="145" height="22" rx="0" fill="none" stroke="#888888" stroke-width="1" stroke-dasharray="4,2"/>
+    <text x="97" y="435" text-anchor="middle" fill="#555555" font-size="11" font-weight="bold">8× FP32 / cycle</text>
+  </g>
+
+</svg>
