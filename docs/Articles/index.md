@@ -4,6 +4,5 @@ A collection of articles on programming concepts, best practices, and design pat
 
 ```{toctree}
 :maxdepth: 1
-:caption: Articles:
 
 type_class
