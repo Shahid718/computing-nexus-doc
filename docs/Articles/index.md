@@ -6,3 +6,4 @@ A collection of articles on programming concepts, best practices, and design pat
 :maxdepth: 1
 
 type_class
+do_concurrent_gpu_offload
